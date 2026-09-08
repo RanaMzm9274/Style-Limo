@@ -1,0 +1,71 @@
+{
+  "light": {
+    "background": "rgba(0, 0, 0, 0)",
+    "body": "rgb(231, 227, 219)",
+    "color": "rgb(244, 243, 237)",
+    "images": 0
+  },
+  "dark": {
+    "background": "rgba(0, 0, 0, 0)",
+    "body": "rgb(32, 32, 32)",
+    "color": "rgb(244, 243, 237)",
+    "images": 0
+  },
+  "anchors": [
+    {
+      "href": "#booking",
+      "target": false
+    },
+    {
+      "href": "#booking",
+      "target": false
+    },
+    {
+      "href": "#booking",
+      "target": false
+    },
+    {
+      "href": "#booking",
+      "target": false
+    },
+    {
+      "href": "#booking",
+      "target": false
+    },
+    {
+      "href": "#booking",
+      "target": false
+    }
+  ],
+  "fonts": [],
+  "cards": [
+    {
+      "width": 97.65625,
+      "scroll": 98
+    },
+    {
+      "width": 118.6875,
+      "scroll": 119
+    },
+    {
+      "width": 97.65625,
+      "scroll": 98
+    },
+    {
+      "width": 166.5,
+      "scroll": 167
+    },
+    {
+      "width": 97.859375,
+      "scroll": 98
+    },
+    {
+      "width": 74.703125,
+      "scroll": 75
+    }
+  ],
+  "booking": {
+    "success": 1,
+    "requests": []
+  }
+}

@@ -1,0 +1,506 @@
+Script completed
+Wall time 0.7 seconds
+Output:
+
+import React,{useEffect,useRef,useState} from "react";
+import {Routes,Route,Link,useLocation} from "react-router-dom";
+import {ArrowDown,ArrowRight,ChevronLeft,ChevronRight,Menu,X,Sun,Moon} from "lucide-react";
+import gsap from "gsap";
+import {ScrollTrigger} from "gsap/ScrollTrigger";
+import {useGSAP} from "@gsap/react";
+import Lenis from "lenis";
+import * as THREE from "three";
+import {Canvas,useFrame} from "@react-three/fiber";
+import {Environment,ContactShadows,useGLTF,OrbitControls,Html,useProgress} from "@react-three/drei";
+gsap.registerPlugin(ScrollTrigger,useGSAP);
+
+const cars=[
+ {name:"911 GT3",brand:"PORSCHE",power:"510 PS",speed:"198 MPH",zero:"3.4 SEC",price:"495",tone:"#d7d7d2",image:"https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1800&q=88"},
+ {name:"HURACÃN",brand:"LAMBORGHINI",power:"640 PS",speed:"202 MPH",zero:"2.9 SEC",price:"795",tone:"#d4ff38",image:"https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?auto=format&fit=crop&w=1800&q=88"},
+ {name:"720S",brand:"McLAREN",power:"710 PS",speed:"212 MPH",zero:"2.8 SEC",price:"850",tone:"#ff6b22",image:"https://images.unsplash.com/photo-1621135802920-133df287f89c?auto=format&fit=crop&w=1800&q=88"},
+ {name:"CONTINENTAL GT",brand:"BENTLEY",power:"542 PS",speed:"198 MPH",zero:"3.9 SEC",price:"575",tone:"#a8a8a8",image:"https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1800&q=88"},
+ {name:"RANGE ROVER",brand:"AUTOBIOGRAPHY",power:"523 PS",speed:"155 MPH",zero:"4.4 SEC",price:"450",tone:"#9ba49a",image:"https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?auto=format&fit=crop&w=1800&q=88"},
+ {name:"S-CLASS",brand:"MERCEDES-MAYBACH",power:"496 PS",speed:"155 MPH",zero:"4.8 SEC",price:"POA",tone:"#e5e1d9",image:"https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&w=1800&q=88"}
+];
+
+function SmoothScroll(){
+ useEffect(()=>{
+  const lenis=new Lenis({duration:1.1,smoothWheel:true});
+  lenis.on("scroll",ScrollTrigger.update);
+  const tick=t=>lenis.raf(t*1000);
+  gsap.ticker.add(tick); gsap.ticker.lagSmoothing(0);
+  return()=>{gsap.ticker.remove(tick);lenis.destroy();}
+ },[]);
+ return null;
+}
+function Cursor(){
+ const dot=useRef(),ring=useRef();
+ useEffect(()=>{
+  if(matchMedia("(pointer:coarse)").matches)return;
+  let x=0,y=0,rx=0,ry=0,raf;
+  const move=e=>{x=e.clientX;y=e.clientY;if(dot.current)dot.current.style.transform=`translate(${x}px,${y}px)`};
+  const loop=()=>{rx+=(x-rx)*.13;ry+=(y-ry)*.13;if(ring.current)ring.current.style.transform=`translate(${rx}px,${ry}px)`;raf=requestAnimationFrame(loop)};
+  addEventListener("mousemove",move);loop();return()=>{removeEventListener("mousemove",move);cancelAnimationFrame(raf)}
+ },[]);
+ return <><div className="cursor-dot" ref={dot}/><div className="cursor-ring" ref={ring}/></>;
+}
+function Nav(){
+ const [open,setOpen]=useState(false),[theme,setTheme]=useState(()=>localStorage.getItem("drive-theme")||"light");
+ const location=useLocation();
+ useEffect(()=>{document.documentElement.dataset.theme=theme;localStorage.setItem("drive-theme",theme)},[theme]);
+ useEffect(()=>setOpen(false),[location.pathname]);
+ return <header className="nav"><div className="shell nav-in">
+  <Link className="logo" to="/">DRIVE<span>/</span>PRIVÃ‰</Link>
+  <nav className={open?"links open":"links"}><Link to="/about">About</Link><Link to="/services">Services</Link><Link to="/fleet">Fleet</Link><Link to="/booking">Booking</Link></nav>
+  <button className="theme-toggle" onClick={()=>setTheme(t=>t==="dark"?"light":"dark")}>{theme==="dark"?"â˜¼ LIGHT":"â— DARK"}</button>
+  <Link to="/booking" className="book-top">BOOK A CAR <ArrowRight size={15}/></Link>
+  <button className="menu" onClick={()=>setOpen(!open)}>{open?<X/>:<Menu/>}</button>
+ </div></header>
+}
+function Hero(){
+ const ref=useRef();
+ useGSAP(()=>{
+  gsap.from(".hero-word",{y:130,opacity:0,rotateX:-35,stagger:.1,duration:1.25,ease:"power4.out"});
+  gsap.from(".hero-car",{scale:1.15,opacity:0,duration:1.6,ease:"power3.out",delay:.25});
+  gsap.timeline({scrollTrigger:{trigger:ref.current,start:"top top",end:"bottom top",scrub:1}})
+   .to(".hero-car",{scale:1.12,y:120,x:80},0).to(".hero-copy",{y:-80,opacity:.2},0).to(".hero-title",{y:-130},0);
+ },{scope:ref});
+ return <section className="hero" id="top" ref={ref}>
+  <div className="hero-grid"/><div className="hero-glow"/>
+  <div className="shell hero-inner">
+   <div className="eyebrow hero-copy"><span>01 / LONDON</span><span>PREMIUM MOBILITY Â· 24/7</span></div>
+   <h1 className="hero-title"><span className="hero-word">DRIVE</span><span className="hero-word outline">WITHOUT</span><span className="hero-word">COMPROMISE.</span></h1>
+   <div className="hero-car"><img src={cars[0].image}/><div className="car-shadow"/></div>
+   <div className="hero-bottom hero-copy"><p>Chauffeur driven luxury.<br/>Self-drive performance.</p><a className="round-link" href="#fleet"><span>EXPLORE<br/>THE FLEET</span><ArrowRight/></a><div className="scroll">SCROLL TO DISCOVER <ArrowDown size={16}/></div></div>
+  </div>
+ </section>
+}
+function Manifesto(){
+ const ref=useRef();
+ useGSAP(()=>{
+  gsap.from(".manifest-line",{y:100,opacity:0,stagger:.12,scrollTrigger:{trigger:ref.current,start:"top 70%",end:"top 25%",scrub:1}});
+  gsap.to(".ghost-word",{xPercent:-25,scrollTrigger:{trigger:ref.current,start:"top bottom",end:"bottom top",scrub:1}});
+ },{scope:ref});
+ return <section className="manifest" ref={ref}><div className="ghost-word">PERFORMANCE</div><div className="shell"><div className="section-no">02 â€” PHILOSOPHY</div><h2><span className="manifest-line">NOT JUST A RENTAL.</span><span className="manifest-line muted">AN EXPERIENCE</span><span className="manifest-line">ENGINEERED AROUND YOU.</span></h2><p>Exceptional machines. Impeccable service. Zero compromise between the moment you book and the moment you arrive.</p></div></section>
+}
+function Experience(){
+ const [mode,setMode]=useState("self");
+ return <section className={"experience "+mode} id="experience"><div className="exp-bg" style={{backgroundImage:`url(${mode==="self"?cars[1].image:cars[5].image})`}}/><div className="exp-shade"/><div className="shell exp-inner"><div className="section-no">03 â€” CHOOSE YOUR EXPERIENCE</div><h2>HOW DO YOU<br/>WANT TO <i>MOVE?</i></h2><div className="mode-tabs"><button onMouseEnter={()=>setMode("chauffeur")} onClick={()=>setMode("chauffeur")} className={mode==="chauffeur"?"active":""}><small>01</small><b>CHAUFFEUR</b><span>Arrive effortlessly.</span><ArrowRight/></button><button onMouseEnter={()=>setMode("self")} onClick={()=>setMode("self")} className={mode==="self"?"active":""}><small>02</small><b>SELF DRIVE</b><span>Take control.</span><ArrowRight/></button></div></div></section>
+}
+function Fleet(){
+ const [idx,setIdx]=useState(0); const c=cars[idx];
+ const change=d=>setIdx(i=>(i+d+cars.length)%cars.length);
+ return <section className="fleet" id="fleet"><div className="shell"><div className="fleet-head"><div><div className="section-no">04 â€” THE COLLECTION</div><h2>THE <i>MACHINES.</i></h2></div><div className="fleet-nav"><span>0{idx+1} / 0{cars.length}</span><button onClick={()=>change(-1)}><ChevronLeft/></button><button onClick={()=>change(1)}><ChevronRight/></button></div></div><div className="fleet-stage" key={idx}><div className="fleet-name"><small>{c.brand}</small><strong>{c.name}</strong></div><img src={c.image}/><div className="fleet-specs"><div><b>{c.power}</b><span>POWER</span></div><div><b>{c.speed}</b><span>TOP SPEED</span></div><div><b>{c.zero}</b><span>0â€”62 MPH</span></div></div><div className="fleet-price"><span>FROM</span><b>{c.price==="POA"?"POA":`Â£${c.price}`}</b><span>{c.price==="POA"?"":" / DAY"}</span><button>VIEW CAR <ArrowRight/></button></div></div><div className="fleet-strip">{cars.map((x,i)=><button key={x.name} className={i===idx?"on":""} onClick={()=>setIdx(i)}><span>0{i+1}</span>{x.name}</button>)}</div></div></section>
+}
+
+
+const configuratorCars=[
+ {id:"gt3",brand:"PORSCHE",name:"911 GT3",power:"510 PS",zero:"3.4 SEC",speed:"198 MPH",price:"Â£495 / DAY",model:"/models/2022_porsche_911_gt3_992-optimized.glb",rot:[0,0,0]},
+ {id:"huracan",brand:"LAMBORGHINI",name:"HURACÃN EVO",power:"640 PS",zero:"2.9 SEC",speed:"202 MPH",price:"Â£795 / DAY",model:"/models/2019_lamborghini_huracan_evo-optimized.glb",rot:[0,0,0]},
+ {id:"gt",brand:"BENTLEY",name:"CONTINENTAL GT",power:"542 PS",zero:"3.9 SEC",speed:"198 MPH",price:"Â£575 / DAY",model:"/models/bentley-continental-gt.glb",rot:[0,Math.PI,0]},
+ {id:"rr",brand:"RANGE ROVER",name:"AUTOBIOGRAPHY",power:"523 PS",zero:"4.4 SEC",speed:"155 MPH",price:"Â£450 / DAY",model:"/models/2022_land_rover_range_rover.glb",rot:[0,0,0]}
+];
+const paintColors=["#171717","#e8e5dd","#9d0d14","#123f70","#52624b","#c5a66a"];
+
+function ModelLoader(){const {progress}=useProgress();return <Html center><div className="model-loader"><b>{Math.round(progress)}%</b><span>LOADING MACHINE</span></div></Html>}
+function ActualCar({car,color,progress,dragRotation}){
+ const group=useRef(); const {scene}=useGLTF(car.model, "/draco/");
+ const model=React.useMemo(()=>{
+  const cloned=scene.clone(true);
+  cloned.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;if(o.material)o.material=o.material.clone()});
+  // Normalize after applying the source model's corrective orientation. This fixes Bentley's offset/orientation.
+  const wrapper=new THREE.Group(); wrapper.add(cloned); cloned.rotation.set(...(car.rot||[0,0,0])); wrapper.updateMatrixWorld(true);
+  const box=new THREE.Box3().setFromObject(wrapper),size=new THREE.Vector3(),center=new THREE.Vector3();box.getSize(size);box.getCenter(center);
+  cloned.position.sub(wrapper.worldToLocal(center.clone())); const max=Math.max(size.x,size.y,size.z)||1; wrapper.scale.setScalar(6.54/max);
+  return wrapper;
+ },[scene,car.id]);
+ useEffect(()=>{
+  // Exact paint material mappings first. Range Rover's source uses Portuguese material names.
+  const exact={gt3:/Porsche_911GT3_2022Paint_Material/i,huracan:/PaintTNR/i,rr:/Carro_Pintura|Carro_Metal_Vermelho/i,gt:/Meshesmeshes1bumpfrontok0021Mtl/i};
+  const bodyHints=/body|paint|pintura|metal_vermelho|exterior|carrosserie|karosserie|hood|bonnet|door|fender|bumper|quarter|roof|boot/i;
+  const exclude=/glass|vidro|window|wind|tire|tyre|pneu|wheel|roda|rim|brake|disc|caliper|light|farol|lamp|chrome|cromado|interior|interno|seat|carbon|rubber|plastico/i;
+  let candidates=[]; model.traverse(o=>{if(!o.isMesh||!o.material)return;const n=`${o.name} ${o.material.name||''}`;if(exact[car.id]?.test(n)||(!exclude.test(n)&&bodyHints.test(n)))candidates.push(o)});
+  // Bentley has generic material names; choose exterior panels by node/material naming and surface size.
+  if(car.id==='gt') model.traverse(o=>{if(o.isMesh&&o.material){const n=`${o.name} ${o.material.name||''}`;if(exact.gt.test(n)&&!candidates.includes(o))candidates.push(o)}});
+  candidates.forEach(o=>{if(o.material.color){if(car.id==='gt'){o.material.map=null;o.material.roughness=.24;o.material.metalness=.55}o.material.color.set(color);o.material.metalness=Math.max(o.material.metalness||0,.35);o.material.needsUpdate=true}});
+ },[model,color,car.id]);
+ useFrame(()=>{if(group.current)group.current.rotation.y=progress.current*Math.PI*2+dragRotation.current});
+ return <group ref={group} position={[0,-.12,0]}><primitive object={model}/></group>
+}
+function ConfiguratorScene({car,color,progress,dragRotation}){
+ return <Canvas camera={{position:[5.2,2.25,5.2],fov:35}} dpr={[1,1.15]} gl={{antialias:true,powerPreference:"high-performance",toneMapping:THREE.ACESFilmicToneMapping}}>
+  <ambientLight intensity={.72}/><directionalLight position={[5,7,4]} intensity={2.4}/><directionalLight position={[-5,2,-3]} intensity={.9}/>
+  <React.Suspense fallback={<ModelLoader/>}><ActualCar car={car} color={color} progress={progress} dragRotation={dragRotation}/><Environment preset="city"/></React.Suspense>
+  <ContactShadows position={[0,-.23,0]} opacity={.5} scale={11} blur={2.5} far={5} resolution={128} frames={1}/>
+  <OrbitControls enableRotate={false} enableZoom={false} enablePan={false} enableDamping dampingFactor={.08} minPolarAngle={Math.PI*.35} maxPolarAngle={Math.PI*.62}/>
+ </Canvas>
+}
+function ThreeDConfigurator(){
+ const ref=useRef(), progress=useRef(0), dragRotation=useRef(0);
+ const [active,setActive]=useState(0),[color,setColor]=useState(paintColors[0]),[pct,setPct]=useState(0);
+ const car=configuratorCars[active];
+ useGSAP(()=>{
+  const st=ScrollTrigger.create({
+   trigger:ref.current,start:"top top",end:"+=2400",pin:true,scrub:true,anticipatePin:1,
+   onUpdate:self=>{progress.current=self.progress;setPct(Math.round(self.progress*360))}
+  });
+  return()=>st.kill();
+ },{scope:ref});
+ return <section className="configurator" ref={ref}>
+  <div className="configurator-grid"/>
+  <div className="shell config-inner">
+   <div className="config-top"><div><div className="section-no">05 â€” 3D CONFIGURATOR</div><h2>MAKE IT<br/><i>YOURS.</i></h2></div><div className="rotation-meter"><span>SCROLL TO ROTATE</span><b>{pct}Â°</b><div><i style={{width:`${pct/3.6}%`}}/></div></div></div>
+   <div className="model-stage"><div className="canvas-wrap"><ConfiguratorScene car={car} color={color} progress={progress} dragRotation={dragRotation}/><div className="stage-ring"/><span className="drag-note">360Â° VIEW Â· SCROLL / CLICK + DRAG</span></div>
+    <aside className="config-panel">
+     <div className="selected-name"><small>{car.brand}</small><strong>{car.name}</strong></div>
+     <div className="config-specs"><div><b>{car.power}</b><span>POWER</span></div><div><b>{car.zero}</b><span>0â€”62 MPH</span></div><div><b>{car.speed}</b><span>TOP SPEED</span></div></div>
+     <div className="paint"><span>PAINT / SELECT COLOUR</span><div>{paintColors.map(c=><button type="button" key={c} aria-label={"Select "+c} className={color===c?"selected":""} style={{background:c}} onClick={()=>setColor(c)}/>)}</div></div>
+     <div className="config-price"><span>FROM</span><b>{car.price}</b></div><a href="#booking">CONFIGURE & RESERVE <ArrowRight/></a>
+    </aside>
+   </div>
+   <div className="model-selector">{configuratorCars.map((c,i)=><button type="button" className={i===active?"active":""} onClick={()=>{setActive(i);setColor(paintColors[0])}} key={c.id}><span>0{i+1}</span><div><small>{c.brand}</small><b>{c.name}</b></div></button>)}</div>
+  </div>
+ </section>
+}
+
+function SelBanner(){
+ const [active,setActive]=useState(0),[color,setColor]=useState(paintColors[0]);
+ const car=configuratorCars[active];
+ const progress=useRef(0),dragRotation=useRef(0);
+ const drag=useRef({active:false,x:0,rotation:0});
+ const startDrag=e=>{drag.current={active:true,x:e.clientX,rotation:dragRotation.current};e.currentTarget.setPointerCapture?.(e.pointerId)};
+ const moveDrag=e=>{if(!drag.current.active)return;dragRotation.current=drag.current.rotation+(e.clientX-drag.current.x)*0.012};
+ const stopDrag=()=>{drag.current.active=false};
+ return <section className="sel-banner" id="top">
+  <div className="sel-banner-glow"/>
+  <div className="shell sel-banner-top"><div className="sel-eyebrow"><span className="sel-dot"/> EXCEPTIONAL CARS. EXTRAORDINARY JOURNEYS.</div><div className="sel-index">LONDON Ã‚Â· UNITED KINGDOM<span>EST. 2014</span></div></div>
+  <div className="shell"><h1 className="sel-heading"><span>Beyond the</span><span className="sel-outline">ordinary<span className="sel-period">.</span></span></h1></div>
+  <div className="sel-scene" onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={stopDrag} onPointerCancel={stopDrag} onPointerLeave={stopDrag}><ConfiguratorScene car={car} color={color} progress={progress} dragRotation={dragRotation}/></div>
+  <div className="sel-caption"><span/>THE ART OF ARRIVING.</div>
+  <div className="shell sel-banner-bottom"><div><p>For the drive. For the arrival.<br/>For the moments that stay with you.</p><a href="#fleet" className="sel-button">EXPLORE THE COLLECTION <ArrowRight size={16}/></a></div>
+   <div className="sel-model-info"><small>THE SPOTLIGHT / 0{active+1}</small><h3>{car.name}</h3><div className="sel-swatches">{paintColors.slice(0,3).map(c=><button type="button" key={c} aria-label={'Select '+c} className={color===c?'selected':''} style={{'--swatch':c}} onClick={()=>setColor(c)}/>)}<span>DRAG TO EXPLORE</span></div></div>
+   <a href="#experience" className="sel-scroll"><ArrowDown size={16}/> SCROLL TO DISCOVER</a>
+  </div>
+  <div className="shell sel-model-selector">{configuratorCars.map((c,i)=><button type="button" key={c.id} aria-pressed={active===i} className={active===i?'active':''} onClick={()=>{setActive(i);setColor(paintColors[0])}}><span>0{i+1}</span><div><small>{c.brand}</small><b>{c.name}</b></div></button>)}</div>
+--- css tail/head sizes ---
+49203
+1:@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Manrope:wght@300;400;500;600&display=swap');
+21:    background: var(--black);
+23:    font-family: "DM Sans", sans-serif;
+35:    font: inherit
+50:    background: linear-gradient(#080808b8, transparent);
+60:    font: 600 19px "Manrope";
+73:    font-size: 11px;
+87:    font-size: 11px;
+97:    background: none;
+102:.hero {
+107:    background: #070707
+110:.hero-grid {
+113:    background-image: linear-gradient(#ffffff08 1px, transparent 1px), linear-gradient(90deg, #ffffff08 1px, transparent 1px);
+114:    background-size: 90px 90px;
+118:.hero-glow {
+124:    background: radial-gradient(ellipse, #ffffff14, transparent 62%);
+128:.hero-inner {
+137:    font-size: 10px;
+142:.hero-title {
+147:    font: 500 clamp(70px, 10.3vw, 158px)/.77 "Manrope";
+153:.hero-word {
+157:.hero-word.outline {
+163:.hero-car {
+174:.hero-car img {
+182:.hero-car:after {
+186:    background: linear-gradient(90deg, #08080888, transparent 35%, transparent 75%, #08080855)
+189:.hero-bottom {
+200:.hero-bottom p {
+201:    font-size: 16px;
+215:    font-size: 10px;
+221:    background: var(--lime);
+229:    font-size: 9px;
+238:    font-size: 9px;
+259:    font: 400 clamp(45px, 6.2vw, 96px)/.93 "Manrope";
+283:    font: 600 20vw/.8 "Manrope";
+300:    background-size: cover;
+301:    background-position: center;
+302:    transition: background-image .5s, transform 1s;
+313:    background: linear-gradient(90deg, #060606ed 0%, #080808a5 42%, #08080825 80%), linear-gradient(0deg, #080808b5, transparent 50%)
+324:    font: 400 clamp(55px, 7vw, 108px)/.86 "Manrope";
+335:    font-weight: 300;
+337:    font-style: normal
+353:    background: transparent;
+374:    font-size: 26px;
+375:    font-weight: 400
+390:    background: #c8ff2e;
+411:    font: 400 clamp(60px, 8vw, 120px)/.8 "Manrope";
+423:    font-size: 11px;
+432:    background: transparent;
+484:    font: 400 clamp(48px, 7vw, 100px)/.9 "Manrope";
+503:    font-size: 20px;
+504:    font-weight: 400
+509:    font-size: 8px;
+526:    font-size: 34px;
+527:    font-weight: 400
+532:    background: var(--lime);
+547:    background: transparent;
+554:    font-size: 10px
+559:    font-size: 8px;
+569:    background: var(--paper);
+586:    font: 500 clamp(65px, 8vw, 125px)/.75 "Manrope";
+608:    font-size: 10px;
+632:    background: #111;
+642:    font-size: 32px
+646:    font-size: 8px;
+669:    font-size: 9px
+673:    font-size: 21px;
+674:    font-weight: 400
+678:    font-size: 12px;
+686:    background: #0a0a0a
+697:    font-size: 9px;
+703:    font: 400 clamp(42px, 5vw, 75px)/.9 "Manrope";
+726:    font: 400 clamp(80px, 13vw, 200px)/.8 "Manrope";
+749:    background: #0d0d0d
+759:    font: 400 clamp(65px, 7vw, 110px)/.78 "Manrope";
+784:    font-size: 8px;
+792:    background: transparent;
+795:    font-size: 22px;
+812:    background: var(--lime);
+822:    background: #050505
+833:    font: 400 clamp(60px, 8.5vw, 130px)/.8 "Manrope";
+848:    font-size: 9px;
+866:    background: var(--lime);
+877:@media(max-width:900px) {
+896:        background: #080808;
+901:        font-size: 24px
+904:    .hero {
+908:    .hero-title {
+910:        font-size: 17vw
+913:    .hero-word.outline {
+917:    .hero-car {
+924:    .hero-bottom {
+937:        font-size: 18px
+996:@media(max-width:560px) {
+1001:    .hero {
+1005:    .hero-inner {
+1009:    .hero-title {
+1013:    .hero-car {
+1019:    .hero-bottom {
+1041:        font-size: 14vw
+1061:        font-size: 16vw
+1130:        font-size: 16vw
+1139:@media(prefers-reduced-motion:reduce) {
+1164:    font: 400 clamp(55px, 7vw, 105px)/.84 "Manrope";
+1172:    font-style: normal;
+1186:    background: #0b0b0b
+1213:    background: var(--lime);
+1235:    font-size: 9px;
+1251:    font-size: 24px;
+1261:    font: 400 27px "Manrope";
+1268:    font-size: 13px;
+1282:    font-size: 9px;
+1288:    background: #080808
+1302:    font-size: 9px;
+1323:    background: #111
+1343:    font-size: 8px;
+1345:    background: #080808cc;
+1366:    font-size: 8px;
+1372:    font: 400 31px "Manrope";
+1377:    font-weight: 400;
+1378:    font-size: 22px
+1382:    font-weight: 400
+1389:    font-size: 10px;
+1397:    font-size: 9px;
+1406:    background: var(--lime);
+1418:    font: 500 clamp(60px, 9vw, 140px)/.8 "Manrope";
+1439:    font: 500 clamp(50px, 6vw, 90px) "Manrope";
+1444:    font-size: .3em;
+1449:    font-size: 11px;
+1456:    background: #080808
+1485:    background: linear-gradient(transparent 40%, #000b)
+1489:    font-size: 8px;
+1494:    font: 400 clamp(30px, 4vw, 62px) "Manrope";
+1500:    font-size: 9px;
+1507:    background: #101010
+1523:    font: 300 100px/1 serif;
+1528:    font: 300 clamp(30px, 3.4vw, 52px)/1.18 "Manrope";
+1534:    background: none;
+1537:    font-size: 9px;
+1541:@media(max-width:900px) {
+1586:@media(max-width:560px) {
+1645:/* 3D scroll-locked vehicle configurator */
+1646:.configurator {
+1649:    background: #0a0a0a;
+1654:.configurator-grid {
+1657:    background-image: linear-gradient(#ffffff07 1px, transparent 1px), linear-gradient(90deg, #ffffff07 1px, transparent 1px);
+1658:    background-size: 80px 80px;
+1662:.config-inner {
+1669:.config-top {
+1675:.config-top h2 {
+1676:    font: 400 clamp(48px, 5.8vw, 88px)/.78 "Manrope";
+1681:.config-top h2 i {
+1682:    font-style: normal;
+1692:    font-size: 8px;
+1699:    font: 300 38px "Manrope";
+1705:    background: #292929
+1711:    background: var(--lime);
+1724:.canvas-wrap {
+1729:.canvas-wrap canvas {
+1751:    font-size: 8px;
+1756:.config-panel {
+1765:    font-size: 8px;
+1771:    font: 400 29px "Manrope";
+1775:.config-specs {
+1785:.config-specs div {
+1790:.config-specs b {
+1791:    font-size: 13px;
+1792:    font-weight: 400
+1795:.config-specs span {
+1796:    font-size: 6px;
+1803:    font-size: 7px;
+1828:.config-price {
+1832:.config-price span {
+1835:    font-size: 7px;
+1839:.config-price b {
+1840:    font-size: 22px;
+1841:    font-weight: 400
+1844:.config-panel>a {
+1845:    background: var(--lime);
+1851:    font-size: 8px;
+1864:    background: transparent;
+1875:    font-size: 7px
+1880:    font-size: 6px;
+1886:    font-size: 11px;
+1887:    font-weight: 400
+1891:    background: var(--lime);
+1895:@media(max-width:900px) {
+1896:    .configurator {
+1904:    .config-panel {
+1908:    .config-specs {
+1912:    .config-specs div {
+1922:@media(max-width:650px) {
+1923:    .configurator {
+1928:    .config-inner {
+1932:    .config-top h2 {
+1933:        font-size: 13vw
+1946:    .canvas-wrap {
+1950:    .config-panel {
+1960:    .config-specs {
+1974:    .config-price {
+1978:    .config-panel>a {
+2000:    background: transparent;
+2007:    font-size: 8px;
+2020:    background: #080808dd;
+2027:    font: 300 28px Manrope
+2031:    font-size: 7px;
+2036:.canvas-wrap {
+2040:.canvas-wrap:active {
+2052:    background: #f1eee7;
+2057:    background: linear-gradient(#f1eee7e8, transparent)
+2060:html[data-theme="light"] .hero,
+2063:html[data-theme="light"] .configurator,
+2070:    background: #f1eee7;
+2075:    background: #f1eee7;
+2079:html[data-theme="light"] .hero-grid,
+2080:html[data-theme="light"] .configurator-grid {
+2081:    background-image: linear-gradient(#00000008 1px, transparent 1px), linear-gradient(90deg, #00000008 1px, transparent 1px)
+2084:html[data-theme="light"] .hero-glow {
+2085:    background: radial-gradient(ellipse, #0000000b, transparent 62%)
+2088:html[data-theme="light"] .hero-word.outline {
+2101:html[data-theme="light"] .config-panel,
+2121:    background: #111;
+2144:    background: #f1eee7;
+2148:@media(max-width:900px) {
+2163:.page-hero {
+2170:.page-hero-image {
+2173:    background-size: cover;
+2174:    background-position: center;
+2178:.page-hero-shade {
+2181:    background: linear-gradient(90deg, #080808e8 0%, #0808087a 55%, #08080833), linear-gradient(0deg, #080808d8, transparent 55%)
+2184:.page-hero-inner {
+2194:.page-hero h1,
+2197:    font: 400 clamp(70px, 9vw, 145px)/.77 "Manrope";
+2202:.page-hero h1 i,
+2205:    font-style: normal;
+2209:.page-hero p {
+2234:    font: 400 clamp(55px, 7vw, 105px)/.85 "Manrope";
+2240:    font-style: normal;
+2249:    font-size: 18px;
+2267:    font-size: 9px;
+2272:    font: 400 28px "Manrope";
+2278:    font-size: 13px
+2293:    font: 300 60px "Manrope";
+2298:    font: 400 clamp(42px, 5vw, 72px) "Manrope";
+2313:    font-size: 9px;
+2331:    background: transparent;
+2335:    font-size: 9px;
+2341:    background: var(--lime);
+2364:    font-size: clamp(65px, 7vw, 110px)
+2382:    font-size: 10px;
+2409:    font: 400 clamp(35px, 4vw, 60px) "Manrope";
+2417:    font-size: 8px;
+2428:    background: transparent;
+2431:    font-size: 22px;
+2453:    background: transparent;
+2458:    background: var(--lime);
+2474:    font-size: 9px;
+2490:    font-size: 9px;
+2494:@media(max-width:900px) {
+2495:    .page-hero p {
+2521:@media(max-width:560px) {
+2522:    .page-hero {
+2527:    .page-hero h1 {
+2528:        font-size: 17vw
+2531:    .page-hero p {
+2551:        font-size: 30px;
+2560:        font-size: 17vw
+2564:/* Homepage banner: the configurator owns the first viewport. */
+2565:.configurator {
+2571:    .configurator {
+2577:.configurator {
+2578:    background: #161817;
+2583:.configurator-grid {
+2584:    background-image: radial-gradient(ellipse at 66% 58%, #73736b40, transparent 50%), linear-gradient(125deg, #111413, #222521 65%, #141614);
+2589:.config-inner {
+2593:.config-top h2 {
+2594:    font-size: clamp(64px, 8.5vw, 132px);
+2599:.config-top h2 i {
+2616:.config-panel {
+2628:    font-size: 24px
+2631:.config-specs {
+2635:.config-panel>a {
+2636:    background: #c8ff2e
+2649:    background: #c8ff2e;
+2653:@media(max-width:650px) {
+2654:    .config-inner {
+2658:    .config-top h2 {
+2659:        font-size: 14vw
+2676:    background: #161817;
+2685:    background: radial-gradient(ellipse at 66% 58%, #73736b40, transparent 50%), linear-gradient(125deg, #111413, #222521 65%, #141614)
+2704:    font-size: 9px;
+2711:    background: #c59e7f;
+2716:    font-size: 8px;
+2732:    font: 500 clamp(90px, 12.4vw, 185px)/.98 Manrope;
+2763:.sel-scene canvas {
+2772:    font-size: 8px;
+2784:    background: #babeb360
+2800:    font-size: 12px;
+2812:    background: #eeeae2;
+2814:    font-size: 10px
+2823:    font-size: 8px;
+2829:    font-size: 17px;
+2830:    font-weight: 400;
+2844:    background: transparent;
+2854:    background: var(--swatch);
+2869:    font-size: 8px;
+2900:    background: transparent;
+2910:    background: #c8ff2e;
+2915:    font-size: 8px
+2920:    font-size: 7px;
+2926:    font-size: 11px;
+2927:    font-weight: 400
+2930:@media(max-width:760px) {
+2946:        font-size: 7px
+2950:        font-size: 14vw;
+2975:        font-size: 10px;
+2980:        font-size: 9px;
+2990:        font-size: 12px
+3021:.sel-scene canvas {
+3034:@media(max-width:760px) {

@@ -1,0 +1,108 @@
+Script completed
+Wall time 0.7 seconds
+Output:
+
+ </section>
+}
+
+function ServicesGrid(){
+ const services=[
+  ["01","PRIVATE CHAUFFEUR","Door-to-door luxury travel with professional chauffeurs.","EXECUTIVE"],
+  ["02","SELF DRIVE","Performance cars delivered ready for your own journey.","PERFORMANCE"],
+  ["03","AIRPORT TRANSFER","Flight-monitored collection and effortless airport transfers.","24 / 7"],
+  ["04","WEDDINGS & EVENTS","Statement vehicles and discreet chauffeur service for big moments.","OCCASIONS"],
+  ["05","CORPORATE","Executive mobility for meetings, roadshows and VIP guests.","BUSINESS"],
+  ["06","LONG TERM HIRE","Flexible premium vehicle hire for extended stays and projects.","FLEXIBLE"]
+ ];
+ return <section className="service-grid-section" id="services"><div className="shell"><div className="grid-heading reveal-up"><div className="section-no">06 â€” WHAT WE DO</div><h2>ONE STANDARD.<br/><i>EVERY JOURNEY.</i></h2><p>From a single airport transfer to a weekend behind the wheel, every service is designed around time, privacy and detail.</p></div><div className="service-grid">{services.map((s,i)=><article className={"service-card service-card-"+i} key={s[1]}><div className="service-card-top"><span>{s[0]}</span><small>{s[3]}</small></div><div className="service-icon"><span>â†—</span></div><div><h3>{s[1]}</h3><p>{s[2]}</p></div><a href="#booking">EXPLORE <ArrowRight size={15}/></a></article>)}</div></div></section>
+}
+function CarListing(){
+ return <section className="car-listing"><div className="shell"><div className="listing-head reveal-up"><div><div className="section-no">07 â€” AVAILABLE NOW</div><h2>FIND YOUR<br/><i>NEXT DRIVE.</i></h2></div><a href="#fleet">VIEW FULL FLEET <ArrowRight/></a></div><div className="car-grid">{cars.slice(0,6).map((c,i)=><article className="car-card" key={c.name}><div className="car-card-img"><img src={c.image}/><div className="car-index">0{i+1}</div><div className="availability">AVAILABLE</div></div><div className="car-card-title"><div><small>{c.brand}</small><h3>{c.name}</h3></div><b>{c.price==="POA"?"POA":`Â£${c.price}`}<small>{c.price==="POA"?"":" / DAY"}</small></b></div><div className="mini-specs"><span>{c.power}</span><span>{c.zero} 0â€”62</span><span>{c.speed}</span></div><a href="#booking">RESERVE THIS CAR <ArrowRight size={15}/></a></article>)}</div></div></section>
+}
+function Numbers(){
+ return <section className="numbers"><div className="numbers-marquee"><div>PERFORMANCE Â· PRIVACY Â· PRECISION Â· PERFORMANCE Â· PRIVACY Â· PRECISION Â·</div></div><div className="shell number-grid"><article><b>24<span>/7</span></b><p>Concierge & chauffeur support</p></article><article><b>30<span>+</span></b><p>Premium & performance vehicles</p></article><article><b>15<span>MIN</span></b><p>Average booking response</p></article><article><b>100<span>%</span></b><p>Detail-led service</p></article></div></section>
+}
+function Destinations(){
+ const items=[
+  ["LONDON","CITY","https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1200&q=85"],
+  ["COTSWOLDS","ESCAPE","https://images.unsplash.com/photo-1533929736458-ca588d08c8be?auto=format&fit=crop&w=1200&q=85"],
+  ["GOODWOOD","MOTORSPORT","https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=85"]
+ ];
+ return <section className="destinations"><div className="shell"><div className="listing-head reveal-up"><div><div className="section-no">10 â€” GO FURTHER</div><h2>CURATED<br/><i>ESCAPES.</i></h2></div><p>Cars are only half the story. Discover routes and destinations worth driving for.</p></div><div className="destination-grid">{items.map((x,i)=><article key={x[0]}><img src={x[2]}/><div className="destination-overlay"><small>0{i+1} / {x[1]}</small><h3>{x[0]}</h3><a>EXPLORE ROUTE â†—</a></div></article>)}</div></div></section>
+}
+function Reviews(){
+ return <section className="reviews"><div className="shell review-grid"><div><div className="section-no">11 â€” CLIENT NOTES</div><h2>THE EXPERIENCE,<br/><i>IN THEIR WORDS.</i></h2></div><blockquote><div className="quote-mark">â€œ</div><p>From the first message to the final handover, everything felt effortless. The car arrived immaculate and exactly on time.</p><footer>â€” PRIVATE CLIENT, LONDON</footer></blockquote></div></section>
+}
+
+function Chauffeur(){
+ return <section className="chauffeur" id="chauffeur"><div className="shell ch-grid"><div className="ch-copy"><div className="section-no dark">08 â€” CHAUFFEUR</div><h2>DON'T<br/>DRIVE.<br/><i>ARRIVE.</i></h2><p>Professional chauffeurs. Immaculate vehicles. Every detail handled â€” from airport runway to front door.</p><a href="#booking">DISCOVER CHAUFFEUR <ArrowRight/></a></div><div className="ch-photo"><img src={cars[5].image}/><div className="ch-badge"><b>24/7</b><span>PRIVATE<br/>CHAUFFEUR</span></div></div></div><div className="shell services">{["AIRPORT TRANSFERS","CORPORATE TRAVEL","EVENTS & OCCASIONS"].map((x,i)=><a key={x}><span>0{i+1}</span><b>{x}</b><p>{i===0?"Seamless airport collection with flight monitoring.":i===1?"Discreet, punctual executive travel on your schedule.":"Make the entrance part of the occasion."}</p><ArrowRight/></a>)}</div></section>
+}
+function Journey(){
+ const ref=useRef();
+ useGSAP(()=>{gsap.to(".journey-track",{xPercent:-75,ease:"none",scrollTrigger:{trigger:ref.current,start:"top top",end:"+=2800",pin:true,scrub:1}})}, {scope:ref});
+ const steps=[["01","SELECT","Choose the machine or chauffeur experience that fits the moment."],["02","BOOK","Reserve in minutes. Clear pricing, no unnecessary friction."],["03","DRIVE","We prepare every detail. You simply take the wheel â€” or the back seat."],["04","RETURN","A seamless handover completes the experience. Until next time."]];
+ return <section className="journey" ref={ref}><div className="journey-title"><span>09 â€” THE JOURNEY</span><h2>FOUR STEPS.<br/><i>ZERO FRICTION.</i></h2></div><div className="journey-track">{steps.map(s=><article key={s[0]}><small>{s[0]}</small><h3>{s[1]}</h3><p>{s[2]}</p><div className="road"><span>â†’</span></div></article>)}</div></section>
+}
+function Booking(){
+ return <section className="booking" id="booking"><div className="shell booking-grid"><div><div className="section-no">12 â€” RESERVE</div><h2>READY<br/>WHEN <i>YOU ARE.</i></h2><p>Tell us how you want to move. We'll take care of everything else.</p></div><form onSubmit={e=>e.preventDefault()}><label><span>01 / SERVICE</span><select><option>Self Drive</option><option>Chauffeur</option></select></label><label><span>02 / VEHICLE</span><select>{cars.map(c=><option key={c.name}>{c.brand} {c.name}</option>)}</select></label><div className="form-row"><label><span>03 / DATE</span><input type="date"/></label><label><span>04 / DURATION</span><select><option>1 Day</option><option>2 Days</option><option>Weekend</option><option>1 Week</option></select></label></div><button className="reserve">REQUEST RESERVATION <ArrowRight/></button></form></div></section>
+}
+function Footer(){
+ return <footer><div className="shell"><div className="footer-top"><h2>YOUR NEXT<br/>JOURNEY <i>STARTS HERE.</i></h2><a href="#booking" className="round-link light"><span>BOOK YOUR<br/>DRIVE</span><ArrowRight/></a></div><div className="footer-bottom"><a className="logo">DRIVE<span>/</span>PRIVÃ‰</a><div>FLEET Â· CHAUFFEUR Â· EXPERIENCES Â· CONTACT</div><small>Â© 2026 DRIVE/PRIVÃ‰</small></div></div></footer>
+}
+
+function PageHero({index,kicker,title,accent,copy,image}){
+ return <section className="page-hero"><div className="page-hero-image" style={{backgroundImage:`url(${image})`}}/><div className="page-hero-shade"/><div className="shell page-hero-inner"><div className="section-no">{index} â€” {kicker}</div><h1>{title}<br/><i>{accent}</i></h1><p>{copy}</p><ArrowDown className="page-down"/></div></section>
+}
+function AboutPage(){
+ return <><PageHero index="01" kicker="OUR STORY" title="BUILT FOR" accent="THE JOURNEY." copy="A modern luxury mobility company built around remarkable cars, meticulous service and the freedom to move differently." image={cars[2].image}/>
+ <section className="page-intro"><div className="shell split-copy"><div><div className="section-no">02 â€” THE IDEA</div><h2>MORE THAN<br/>A <i>KEY HANDOVER.</i></h2></div><div><p>DRIVE/PRIVÃ‰ brings performance rental and chauffeur travel into one considered experience. Every touchpoint is designed to feel calm, precise and personal.</p><p>Whether you take the wheel or the rear seat, the standard stays the same: exceptional vehicles, transparent service and obsessive attention to detail.</p></div></div></section>
+ <Numbers/>
+ <section className="values"><div className="shell"><div className="listing-head"><div><div className="section-no">03 â€” OUR STANDARD</div><h2>WHAT WE<br/><i>BELIEVE.</i></h2></div></div><div className="value-grid">{[["01","DETAIL","The small things are the experience."],["02","DISCRETION","Premium service without unnecessary noise."],["03","PERFORMANCE","Vehicles and people chosen to deliver."],["04","TIME","Punctuality is a non-negotiable."]].map(v=><article><span>{v[0]}</span><h3>{v[1]}</h3><p>{v[2]}</p></article>)}</div></div></section>
+ <Reviews/><Footer/></>
+}
+function ServicesPage(){
+ return <><PageHero index="01" kicker="SERVICES" title="MOVE ON" accent="YOUR TERMS." copy="Self-drive performance, professional chauffeur travel and tailored mobility for the moments that matter." image={cars[5].image}/>
+ <ServicesGrid/>
+ <section className="service-detail"><div className="shell">{[["01","PRIVATE CHAUFFEUR","Airport transfers, corporate travel and private events handled by professional chauffeurs with discreet door-to-door service."],["02","SELF DRIVE","Choose from our curated performance fleet, reserve your dates and take control of the journey."],["03","BESPOKE MOBILITY","Multi-car events, long-term hire and tailored itineraries designed around complex schedules."]].map((s,i)=><article><div className="service-big-no">{s[0]}</div><div><h2>{s[1]}</h2><p>{s[2]}</p><Link to="/booking">MAKE AN ENQUIRY <ArrowRight/></Link></div></article>)}</div></section>
+ <Journey/><Footer/></>
+}
+function FleetPage(){
+ const [filter,setFilter]=useState("ALL");
+ const cats=["ALL","PERFORMANCE","LUXURY","SUV","CHAUFFEUR"];
+ return <><PageHero index="01" kicker="THE FLEET" title="CHOOSE YOUR" accent="MACHINE." copy="A curated collection of performance, grand touring, SUV and chauffeur vehicles." image={cars[0].image}/>
+ <section className="fleet-page"><div className="shell"><div className="filter-bar">{cats.map(x=><button className={filter===x?"on":""} onClick={()=>setFilter(x)}>{x}</button>)}</div><div className="car-grid">{cars.map((c,i)=><article className="car-card" key={c.name}><div className="car-card-img"><img src={c.image}/><div className="car-index">0{i+1}</div><div className="availability">AVAILABLE</div></div><div className="car-card-title"><div><small>{c.brand}</small><h3>{c.name}</h3></div><b>{c.price==="POA"?"POA":`Â£${c.price}`}<small>{c.price==="POA"?"":" / DAY"}</small></b></div><div className="mini-specs"><span>{c.power}</span><span>{c.zero} 0â€”62</span><span>{c.speed}</span></div><Link to="/booking">RESERVE THIS CAR <ArrowRight size={15}/></Link></article>)}</div></div></section>
+ <ThreeDConfigurator/><Footer/></>
+}
+function BookingPage(){
+ const [step,setStep]=useState(1),[done,setDone]=useState(false);
+ const [form,setForm]=useState({service:"Self Drive",vehicle:"Porsche 911 GT3",date:"",duration:"2 Days",name:"",email:"",phone:""});
+ const set=(k,v)=>setForm(f=>({...f,[k]:v}));
+ if(done)return <><section className="booking-success"><div className="shell"><span>REQUEST RECEIVED</span><h1>YOUR JOURNEY<br/><i>STARTS HERE.</i></h1><p>Thanks {form.name||"there"}. Our concierge team will review your request and contact you with availability.</p><Link to="/">RETURN HOME <ArrowRight/></Link></div></section><Footer/></>;
+ return <><section className="booking-page"><div className="shell booking-page-grid"><div className="booking-aside"><div className="section-no">01 â€” RESERVATION</div><h1>BOOK<br/><i>YOUR DRIVE.</i></h1><p>Build your request in three quick steps. No payment is taken at this stage.</p><div className="step-list">{["EXPERIENCE","DATES","YOUR DETAILS"].map((x,i)=><div className={step===i+1?"active":step>i+1?"done":""}><span>0{i+1}</span>{x}</div>)}</div></div>
+ <form onSubmit={e=>{e.preventDefault();if(step<3)setStep(step+1);else setDone(true)}} className="booking-wizard">
+ {step===1&&<div className="wizard-panel"><small>STEP 01</small><h2>CHOOSE YOUR EXPERIENCE</h2><label>SERVICE<select value={form.service} onChange={e=>set("service",e.target.value)}><option>Self Drive</option><option>Private Chauffeur</option><option>Airport Transfer</option></select></label><label>VEHICLE<select value={form.vehicle} onChange={e=>set("vehicle",e.target.value)}>{cars.map(c=><option>{c.brand} {c.name}</option>)}</select></label></div>}
+ {step===2&&<div className="wizard-panel"><small>STEP 02</small><h2>WHEN ARE YOU MOVING?</h2><label>START DATE<input required type="date" value={form.date} onChange={e=>set("date",e.target.value)}/></label><label>DURATION<select value={form.duration} onChange={e=>set("duration",e.target.value)}><option>1 Day</option><option>2 Days</option><option>Weekend</option><option>1 Week</option><option>Long Term</option></select></label></div>}
+ {step===3&&<div className="wizard-panel"><small>STEP 03</small><h2>YOUR DETAILS</h2><label>FULL NAME<input required value={form.name} onChange={e=>set("name",e.target.value)} placeholder="Your name"/></label><label>EMAIL<input required type="email" value={form.email} onChange={e=>set("email",e.target.value)} placeholder="you@email.com"/></label><label>PHONE<input required value={form.phone} onChange={e=>set("phone",e.target.value)} placeholder="+44"/></label></div>}
+ <div className="wizard-actions">{step>1&&<button type="button" className="back" onClick={()=>setStep(step-1)}>â† BACK</button>}<button type="submit" className="next">{step===3?"SEND REQUEST":"CONTINUE"} <ArrowRight/></button></div>
+ </form></div></section><Footer/></>
+}
+function HomePage(){return <><main><SelBanner/><Manifesto/><Experience/><Fleet/><ServicesGrid/><CarListing/><Numbers/><Chauffeur/><Journey/><Destinations/><Reviews/><Booking/></main><Footer/></>}
+function ScrollTop(){const {pathname}=useLocation();useEffect(()=>{window.scrollTo(0,0);ScrollTrigger.refresh()},[pathname]);return null}
+
+export default function App(){
+ useGSAP(()=>{
+  gsap.utils.toArray(".reveal-up").forEach(el=>gsap.from(el,{y:80,opacity:0,duration:1.1,ease:"power3.out",scrollTrigger:{trigger:el,start:"top 86%"}}));
+ });
+ return <><SmoothScroll/><Cursor/><ScrollTop/><Nav/><Routes><Route path="/" element={<HomePage/>}/><Route path="/about" element={<AboutPage/>}/><Route path="/services" element={<ServicesPage/>}/><Route path="/fleet" element={<FleetPage/>}/><Route path="/booking" element={<BookingPage/>}/></Routes></>
+}
+
+Name                                         Length
+----                                         ------
+2019_lamborghini_huracan_evo-optimized.glb  1685420
+2022_land_rover_range_rover.glb             1118240
+2022_porsche_911_gt3_992-optimized.glb      3498668
+bentley-continental-gt.glb                   968560
+                                           36847174
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><meta name="theme-color" content="#080808"/><title>DRIVE/PRIVÃ‰ â€” Chauffeur & Performance Cars</title></head><body><div id="root"></div><script type="module" src="/src/main.jsx"></script></body></html>
+
+

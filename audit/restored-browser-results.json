@@ -1,0 +1,458 @@
+[
+  {
+    "width": 1440,
+    "route": "/",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "sel-banner",
+        "height": 900,
+        "text": "EXCEPTIONAL CARS. EXTRAORDINARY JOURNEYS.\nLONDON · UNITED KINGDOM\nEST. 2014\nBeyond the\nordinary.\nTHE ART OF ARRIVING.\n\nFor the dri",
+        "opacity": "1"
+      },
+      {
+        "class": "manifest",
+        "height": 945,
+        "text": "PERFORMANCE\n02 — PHILOSOPHY\nNOT JUST A RENTAL.\nAN EXPERIENCE\nENGINEERED AROUND YOU.\n\nExceptional machines. Impeccable service. Zer",
+        "opacity": "1"
+      },
+      {
+        "class": "experience self",
+        "height": 900,
+        "text": "03 — CHOOSE YOUR EXPERIENCE\nHOW DO YOU\nWANT TO MOVE?\n01\nCHAUFFEUR\nArrive effortlessly.\n02\nSELF DRIVE\nTake control.",
+        "opacity": "1"
+      },
+      {
+        "class": "fleet",
+        "height": 1144,
+        "text": "04 — THE COLLECTION\nTHE MACHINES.\n01 / 06\nPORSCHE\n911 GT3\n510 PS\nPOWER\n198 MPH\nTOP SPEED\n3.4 SEC\n0—62 MPH\nFROM\n£495\n/ DAY\nVIEW CAR",
+        "opacity": "1"
+      },
+      {
+        "class": "service-grid-section",
+        "height": 1598,
+        "text": "06 — WHAT WE DO\nDRIVE / PRIVÉ\n\nOne considered standard, applied to every mile.\n\nONE STANDARD.\nEVERY JOURNEY.\n\nFrom a single airpor",
+        "opacity": "1"
+      },
+      {
+        "class": "car-listing",
+        "height": 2549,
+        "text": "07 — AVAILABLE NOW\nFIND YOUR\nNEXT DRIVE.\nVIEW FULL FLEET\n01\nAVAILABLE\nPORSCHE\n911 GT3\n£495 / DAY\n510 PS\n3.4 SEC 0—62\n198 MPH\nRESER",
+        "opacity": "1"
+      },
+      {
+        "class": "numbers",
+        "height": 598,
+        "text": "PERFORMANCE · PRIVACY · PRECISION · PERFORMANCE · PRIVACY · PRECISION ·\n24/7\n\nConcierge & chauffeur support\n\n30+\n\nPremium & perfor",
+        "opacity": "1"
+      },
+      {
+        "class": "chauffeur",
+        "height": 1352,
+        "text": "08 — CHAUFFEUR\nDON'T\nDRIVE.\nARRIVE.\n\nProfessional chauffeurs. Immaculate vehicles. Every detail handled — from airport runway to f",
+        "opacity": "1"
+      },
+      {
+        "class": "journey",
+        "height": 900,
+        "text": "09 — THE JOURNEY\nFOUR STEPS.\nZERO FRICTION.\n01\nSELECT\n\nChoose the machine or chauffeur experience that fits the moment.\n\n→\n02\nBOOK",
+        "opacity": "1"
+      },
+      {
+        "class": "destinations",
+        "height": 1238,
+        "text": "10 — GO FURTHER\nCURATED\nESCAPES.\n\nCars are only half the story. Discover routes and destinations worth driving for.\n\n01 / CITY\nLON",
+        "opacity": "1"
+      },
+      {
+        "class": "reviews",
+        "height": 762,
+        "text": "11 — CLIENT NOTES\nTHE EXPERIENCE,\nIN THEIR WORDS.\n“\n\nFrom the first message to the final handover, everything felt effortless. The",
+        "opacity": "1"
+      },
+      {
+        "class": "booking",
+        "height": 726,
+        "text": "12 — RESERVE\nREADY\nWHEN YOU ARE.\n\nTell us how you want to move. We'll take care of everything else.\n\n01 / SERVICE\nSelf Drive\nChauf",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 1,
+    "footers": 2,
+    "bodyWidth": 1440,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": [
+      "http://localhost:4173/models/2022_porsche_911_gt3_992-optimized.glb",
+      "http://localhost:4173/draco/draco_wasm_wrapper.js",
+      "http://localhost:4173/draco/draco_decoder.wasm"
+    ]
+  },
+  {
+    "width": 1440,
+    "route": "/about",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "page-hero",
+        "height": 792,
+        "text": "01 — OUR STORY\nBUILT FOR\nTHE JOURNEY.\n\nA modern luxury mobility company built around remarkable cars, meticulous service and the f",
+        "opacity": "1"
+      },
+      {
+        "class": "page-intro",
+        "height": 628,
+        "text": "02 — THE IDEA\nMORE THAN\nA KEY HANDOVER.\n\nDRIVE/PRIVÉ brings performance rental and chauffeur travel into one considered experience",
+        "opacity": "1"
+      },
+      {
+        "class": "numbers",
+        "height": 598,
+        "text": "PERFORMANCE · PRIVACY · PRECISION · PERFORMANCE · PRIVACY · PRECISION ·\n24/7\n\nConcierge & chauffeur support\n\n30+\n\nPremium & perfor",
+        "opacity": "1"
+      },
+      {
+        "class": "values",
+        "height": 859,
+        "text": "03 — OUR STANDARD\nWHAT WE\nBELIEVE.\n01\nDETAIL\n\nThe small things are the experience.\n\n02\nDISCRETION\n\nPremium service without unneces",
+        "opacity": "1"
+      },
+      {
+        "class": "reviews",
+        "height": 762,
+        "text": "11 — CLIENT NOTES\nTHE EXPERIENCE,\nIN THEIR WORDS.\n“\n\nFrom the first message to the final handover, everything felt effortless. The",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 2,
+    "bodyWidth": 1440,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 1440,
+    "route": "/services",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "page-hero",
+        "height": 792,
+        "text": "01 — SERVICES\nMOVE ON\nYOUR TERMS.\n\nSelf-drive performance, professional chauffeur travel and tailored mobility for the moments tha",
+        "opacity": "1"
+      },
+      {
+        "class": "service-grid-section",
+        "height": 1598,
+        "text": "06 — WHAT WE DO\nDRIVE / PRIVÉ\n\nOne considered standard, applied to every mile.\n\nONE STANDARD.\nEVERY JOURNEY.\n\nFrom a single airpor",
+        "opacity": "1"
+      },
+      {
+        "class": "service-detail",
+        "height": 1271,
+        "text": "01\nPRIVATE CHAUFFEUR\n\nAirport transfers, corporate travel and private events handled by professional chauffeurs with discreet door",
+        "opacity": "1"
+      },
+      {
+        "class": "journey",
+        "height": 900,
+        "text": "09 — THE JOURNEY\nFOUR STEPS.\nZERO FRICTION.\n01\nSELECT\n\nChoose the machine or chauffeur experience that fits the moment.\n\n→\n02\nBOOK",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 1,
+    "bodyWidth": 1440,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 1440,
+    "route": "/fleet",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "page-hero",
+        "height": 792,
+        "text": "01 — THE FLEET\nCHOOSE YOUR\nMACHINE.\n\nA curated collection of performance, grand touring, SUV and chauffeur vehicles.",
+        "opacity": "1"
+      },
+      {
+        "class": "fleet-page",
+        "height": 2314,
+        "text": "ALL\nPERFORMANCE\nLUXURY\nSUV\nCHAUFFEUR\n01\nAVAILABLE\nPORSCHE\n911 GT3\n£495 / DAY\n510 PS\n3.4 SEC 0—62\n198 MPH\nRESERVE THIS CAR\n02\nAVAIL",
+        "opacity": "1"
+      },
+      {
+        "class": "configurator",
+        "height": 900,
+        "text": "05 — 3D CONFIGURATOR\nMAKE IT\nYOURS.\nSCROLL TO ROTATE\n0°\n360° VIEW · SCROLL / CLICK + DRAG\nPORSCHE\n911 GT3\n510 PS\nPOWER\n3.4 SEC\n0—6",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 1,
+    "footers": 1,
+    "bodyWidth": 1440,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": [
+      "http://localhost:4173/models/2022_porsche_911_gt3_992-optimized.glb",
+      "http://localhost:4173/draco/draco_wasm_wrapper.js",
+      "http://localhost:4173/draco/draco_decoder.wasm"
+    ]
+  },
+  {
+    "width": 1440,
+    "route": "/booking",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "booking-page",
+        "height": 900,
+        "text": "01 — RESERVATION\nBOOK\nYOUR DRIVE.\n\nBuild your request in three quick steps. No payment is taken at this stage.\n\n01EXPERIENCE\n02DAT",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 1,
+    "bodyWidth": 1440,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 390,
+    "route": "/",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "sel-banner",
+        "height": 900,
+        "text": "EXCEPTIONAL CARS. EXTRAORDINARY JOURNEYS.\nBeyond the\nordinary.\n\nFor the drive. For the arrival.\nFor the moments that stay with you",
+        "opacity": "1"
+      },
+      {
+        "class": "manifest",
+        "height": 700,
+        "text": "PERFORMANCE\n02 — PHILOSOPHY\nNOT JUST A RENTAL.\nAN EXPERIENCE\nENGINEERED AROUND YOU.\n\nExceptional machines. Impeccable service. Zer",
+        "opacity": "1"
+      },
+      {
+        "class": "experience self",
+        "height": 900,
+        "text": "03 — CHOOSE YOUR EXPERIENCE\nHOW DO YOU\nWANT TO MOVE?\n01\nCHAUFFEUR\nArrive effortlessly.\n02\nSELF DRIVE\nTake control.",
+        "opacity": "1"
+      },
+      {
+        "class": "fleet",
+        "height": 1224,
+        "text": "04 — THE COLLECTION\nTHE MACHINES.\n01 / 06\nPORSCHE\n911 GT3\n510 PS\nPOWER\n198 MPH\nTOP SPEED\n3.4 SEC\n0—62 MPH\nFROM\n£495\n/ DAY\nVIEW CAR",
+        "opacity": "1"
+      },
+      {
+        "class": "service-grid-section",
+        "height": 2821,
+        "text": "06 — WHAT WE DO\nDRIVE / PRIVÉ\n\nOne considered standard, applied to every mile.\n\nONE STANDARD.\nEVERY JOURNEY.\n\nFrom a single airpor",
+        "opacity": "1"
+      },
+      {
+        "class": "car-listing",
+        "height": 3581,
+        "text": "07 — AVAILABLE NOW\nFIND YOUR\nNEXT DRIVE.\nVIEW FULL FLEET\n01\nAVAILABLE\nPORSCHE\n911 GT3\n£495 / DAY\n510 PS\n3.4 SEC 0—62\n198 MPH\nRESER",
+        "opacity": "1"
+      },
+      {
+        "class": "numbers",
+        "height": 706,
+        "text": "PERFORMANCE · PRIVACY · PRECISION · PERFORMANCE · PRIVACY · PRECISION ·\n24/7\n\nConcierge & chauffeur support\n\n30+\n\nPremium & perfor",
+        "opacity": "1"
+      },
+      {
+        "class": "chauffeur",
+        "height": 1339,
+        "text": "08 — CHAUFFEUR\nDON'T\nDRIVE.\nARRIVE.\n\nProfessional chauffeurs. Immaculate vehicles. Every detail handled — from airport runway to f",
+        "opacity": "1"
+      },
+      {
+        "class": "journey",
+        "height": 1495,
+        "text": "09 — THE JOURNEY\nFOUR STEPS.\nZERO FRICTION.\n01\nSELECT\n\nChoose the machine or chauffeur experience that fits the moment.\n\n→\n02\nBOOK",
+        "opacity": "1"
+      },
+      {
+        "class": "destinations",
+        "height": 1819,
+        "text": "10 — GO FURTHER\nCURATED\nESCAPES.\n\nCars are only half the story. Discover routes and destinations worth driving for.\n\n01 / CITY\nLON",
+        "opacity": "1"
+      },
+      {
+        "class": "reviews",
+        "height": 756,
+        "text": "11 — CLIENT NOTES\nTHE EXPERIENCE,\nIN THEIR WORDS.\n“\n\nFrom the first message to the final handover, everything felt effortless. The",
+        "opacity": "1"
+      },
+      {
+        "class": "booking",
+        "height": 1093,
+        "text": "12 — RESERVE\nREADY\nWHEN YOU ARE.\n\nTell us how you want to move. We'll take care of everything else.\n\n01 / SERVICE\nSelf Drive\nChauf",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 1,
+    "footers": 2,
+    "bodyWidth": 390,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": [
+      "http://localhost:4173/models/2022_porsche_911_gt3_992-optimized.glb",
+      "http://localhost:4173/draco/draco_wasm_wrapper.js",
+      "http://localhost:4173/draco/draco_decoder.wasm"
+    ]
+  },
+  {
+    "width": 390,
+    "route": "/about",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "page-hero",
+        "height": 720,
+        "text": "01 — OUR STORY\nBUILT FOR\nTHE JOURNEY.\n\nA modern luxury mobility company built around remarkable cars, meticulous service and the f",
+        "opacity": "1"
+      },
+      {
+        "class": "page-intro",
+        "height": 726,
+        "text": "02 — THE IDEA\nMORE THAN\nA KEY HANDOVER.\n\nDRIVE/PRIVÉ brings performance rental and chauffeur travel into one considered experience",
+        "opacity": "1"
+      },
+      {
+        "class": "numbers",
+        "height": 706,
+        "text": "PERFORMANCE · PRIVACY · PRECISION · PERFORMANCE · PRIVACY · PRECISION ·\n24/7\n\nConcierge & chauffeur support\n\n30+\n\nPremium & perfor",
+        "opacity": "1"
+      },
+      {
+        "class": "values",
+        "height": 1472,
+        "text": "03 — OUR STANDARD\nWHAT WE\nBELIEVE.\n01\nDETAIL\n\nThe small things are the experience.\n\n02\nDISCRETION\n\nPremium service without unneces",
+        "opacity": "1"
+      },
+      {
+        "class": "reviews",
+        "height": 756,
+        "text": "11 — CLIENT NOTES\nTHE EXPERIENCE,\nIN THEIR WORDS.\n“\n\nFrom the first message to the final handover, everything felt effortless. The",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 2,
+    "bodyWidth": 390,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 390,
+    "route": "/services",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "page-hero",
+        "height": 720,
+        "text": "01 — SERVICES\nMOVE ON\nYOUR TERMS.\n\nSelf-drive performance, professional chauffeur travel and tailored mobility for the moments tha",
+        "opacity": "1"
+      },
+      {
+        "class": "service-grid-section",
+        "height": 2821,
+        "text": "06 — WHAT WE DO\nDRIVE / PRIVÉ\n\nOne considered standard, applied to every mile.\n\nONE STANDARD.\nEVERY JOURNEY.\n\nFrom a single airpor",
+        "opacity": "1"
+      },
+      {
+        "class": "service-detail",
+        "height": 1371,
+        "text": "01\nPRIVATE CHAUFFEUR\n\nAirport transfers, corporate travel and private events handled by professional chauffeurs with discreet door",
+        "opacity": "1"
+      },
+      {
+        "class": "journey",
+        "height": 1495,
+        "text": "09 — THE JOURNEY\nFOUR STEPS.\nZERO FRICTION.\n01\nSELECT\n\nChoose the machine or chauffeur experience that fits the moment.\n\n→\n02\nBOOK",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 1,
+    "bodyWidth": 390,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 390,
+    "route": "/fleet",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "page-hero",
+        "height": 720,
+        "text": "01 — THE FLEET\nCHOOSE YOUR\nMACHINE.\n\nA curated collection of performance, grand touring, SUV and chauffeur vehicles.",
+        "opacity": "1"
+      },
+      {
+        "class": "fleet-page",
+        "height": 3431,
+        "text": "ALL\nPERFORMANCE\nLUXURY\nSUV\nCHAUFFEUR\n01\nAVAILABLE\nPORSCHE\n911 GT3\n£495 / DAY\n510 PS\n3.4 SEC 0—62\n198 MPH\nRESERVE THIS CAR\n02\nAVAIL",
+        "opacity": "1"
+      },
+      {
+        "class": "configurator",
+        "height": 926,
+        "text": "05 — 3D CONFIGURATOR\nMAKE IT\nYOURS.\n360° VIEW · SCROLL / CLICK + DRAG\nPORSCHE\n911 GT3\n510 PS\nPOWER\n3.4 SEC\n0—62 MPH\n198 MPH\nTOP SP",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 1,
+    "footers": 1,
+    "bodyWidth": 390,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": [
+      "http://localhost:4173/models/2022_porsche_911_gt3_992-optimized.glb",
+      "http://localhost:4173/draco/draco_wasm_wrapper.js",
+      "http://localhost:4173/draco/draco_decoder.wasm"
+    ]
+  },
+  {
+    "width": 390,
+    "route": "/booking",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "booking-page",
+        "height": 1261,
+        "text": "01 — RESERVATION\nBOOK\nYOUR DRIVE.\n\nBuild your request in three quick steps. No payment is taken at this stage.\n\n01EXPERIENCE\n02DAT",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 1,
+    "bodyWidth": 390,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": []
+  }
+]

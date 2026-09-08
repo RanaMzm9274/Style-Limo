@@ -1,0 +1,304 @@
+[
+  {
+    "width": 1440,
+    "route": "/",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "sel-banner",
+        "height": 900,
+        "text": "EXCEPTIONAL CARS. EXTRAORDINARY JOURNEYS.\nBeyond the\nordinary\n.",
+        "opacity": "1"
+      },
+      {
+        "class": "manifest",
+        "height": 945,
+        "text": "NOT JUST A RENTAL.\nAN EXPERIENCE\nENGINEERED AROUND YOU.",
+        "opacity": "1"
+      },
+      {
+        "class": "experience",
+        "height": 900,
+        "text": "HOW DO YOU\nWANT TO MOVE?\n01\nCHAUFFEUR\nArrive effortlessly.\n02\nSELF DRIVE\nTake control.",
+        "opacity": "1"
+      },
+      {
+        "class": "fleet",
+        "height": 900,
+        "text": "THE MACHINES.\nPORSCHE\n911 GT3\nLAMBORGHINI\nHURACÁN\nMcLAREN\n720S",
+        "opacity": "1"
+      },
+      {
+        "class": "service-grid-section",
+        "height": 1610,
+        "text": "06 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â WHAT WE DO\nDRIVE / PRIVÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°\n\nOne considered standard, applied to eve",
+        "opacity": "1"
+      },
+      {
+        "class": "car-listing",
+        "height": 662,
+        "text": "FIND YOUR NEXT DRIVE.\nBENTLEY\nCONTINENTAL GT\nAUTOBIOGRAPHY\nRANGE ROVER\nMERCEDES-MAYBACH\nS-CLASS",
+        "opacity": "1"
+      },
+      {
+        "class": "numbers",
+        "height": 414,
+        "text": "24/7\n\nConcierge support\n\n30+\n\nPremium vehicles\n\n15 MIN\n\nAverage response",
+        "opacity": "1"
+      },
+      {
+        "class": "chauffeur",
+        "height": 466,
+        "text": "DON'T DRIVE.\nARRIVE.\n\nProfessional chauffeurs, immaculate vehicles and every detail handled from runway to front door.",
+        "opacity": "1"
+      },
+      {
+        "class": "journey",
+        "height": 900,
+        "text": "FOUR STEPS.\nZERO FRICTION.\n01 SELECT\n02 BOOK\n03 DRIVE\n04 RETURN",
+        "opacity": "1"
+      },
+      {
+        "class": "destinations",
+        "height": 431,
+        "text": "CURATED ESCAPES.\n\nRoutes and destinations worth driving for.",
+        "opacity": "1"
+      },
+      {
+        "class": "reviews",
+        "height": 524,
+        "text": "THE EXPERIENCE,\nIN THEIR WORDS.\n“Everything felt effortless. The car arrived immaculate and exactly on time.”",
+        "opacity": "1"
+      },
+      {
+        "class": "booking",
+        "height": 553,
+        "text": "READY WHEN YOU ARE.\n\nTell us how you want to move. We’ll take care of everything else.\n\nREQUEST A RESERVATION",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 2,
+    "bodyWidth": 1440,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 1440,
+    "route": "/about",
+    "errors": [
+      "cars is not defined"
+    ],
+    "failed": [],
+    "sections": [],
+    "canvas": 0,
+    "footers": 0,
+    "bodyWidth": 1440,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 1440,
+    "route": "/services",
+    "errors": [
+      "cars is not defined"
+    ],
+    "failed": [],
+    "sections": [],
+    "canvas": 0,
+    "footers": 0,
+    "bodyWidth": 1440,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 1440,
+    "route": "/fleet",
+    "errors": [
+      "React is not defined"
+    ],
+    "failed": [],
+    "sections": [],
+    "canvas": 0,
+    "footers": 0,
+    "bodyWidth": 1440,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 1440,
+    "route": "/booking",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "booking-page",
+        "height": 901,
+        "text": "01 ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 2,
+    "bodyWidth": 2306,
+    "viewport": 1440,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 390,
+    "route": "/",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "sel-banner",
+        "height": 900,
+        "text": "EXCEPTIONAL CARS. EXTRAORDINARY JOURNEYS.\nBeyond the\nordinary\n.",
+        "opacity": "1"
+      },
+      {
+        "class": "manifest",
+        "height": 765,
+        "text": "NOT JUST A RENTAL.\nAN EXPERIENCE\nENGINEERED AROUND YOU.",
+        "opacity": "1"
+      },
+      {
+        "class": "experience",
+        "height": 900,
+        "text": "HOW DO YOU\nWANT TO MOVE?\n01\nCHAUFFEUR\nArrive effortlessly.\n02\nSELF DRIVE\nTake control.",
+        "opacity": "1"
+      },
+      {
+        "class": "fleet",
+        "height": 900,
+        "text": "THE MACHINES.\nPORSCHE\n911 GT3\nLAMBORGHINI\nHURACÁN\nMcLAREN\n720S",
+        "opacity": "1"
+      },
+      {
+        "class": "service-grid-section",
+        "height": 3008,
+        "text": "06 ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â WHAT WE DO\nDRIVE / PRIVÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â°\n\nOne considered standard, applied to eve",
+        "opacity": "1"
+      },
+      {
+        "class": "car-listing",
+        "height": 594,
+        "text": "FIND YOUR NEXT DRIVE.\nBENTLEY\nCONTINENTAL GT\nAUTOBIOGRAPHY\nRANGE ROVER\nMERCEDES-MAYBACH\nS-CLASS",
+        "opacity": "1"
+      },
+      {
+        "class": "numbers",
+        "height": 575,
+        "text": "24/7\n\nConcierge support\n\n30+\n\nPremium vehicles\n\n15 MIN\n\nAverage response",
+        "opacity": "1"
+      },
+      {
+        "class": "chauffeur",
+        "height": 393,
+        "text": "DON'T DRIVE.\nARRIVE.\n\nProfessional chauffeurs, immaculate vehicles and every detail handled from runway to front door.",
+        "opacity": "1"
+      },
+      {
+        "class": "journey",
+        "height": 900,
+        "text": "FOUR STEPS.\nZERO FRICTION.\n01 SELECT\n02 BOOK\n03 DRIVE\n04 RETURN",
+        "opacity": "1"
+      },
+      {
+        "class": "destinations",
+        "height": 321,
+        "text": "CURATED ESCAPES.\n\nRoutes and destinations worth driving for.",
+        "opacity": "1"
+      },
+      {
+        "class": "reviews",
+        "height": 429,
+        "text": "THE EXPERIENCE,\nIN THEIR WORDS.\n“Everything felt effortless. The car arrived immaculate and exactly on time.”",
+        "opacity": "1"
+      },
+      {
+        "class": "booking",
+        "height": 506,
+        "text": "READY WHEN YOU ARE.\n\nTell us how you want to move. We’ll take care of everything else.\n\nREQUEST A RESERVATION",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 2,
+    "bodyWidth": 395,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 390,
+    "route": "/about",
+    "errors": [
+      "cars is not defined"
+    ],
+    "failed": [],
+    "sections": [],
+    "canvas": 0,
+    "footers": 0,
+    "bodyWidth": 390,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 390,
+    "route": "/services",
+    "errors": [
+      "cars is not defined"
+    ],
+    "failed": [],
+    "sections": [],
+    "canvas": 0,
+    "footers": 0,
+    "bodyWidth": 390,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 390,
+    "route": "/fleet",
+    "errors": [
+      "React is not defined"
+    ],
+    "failed": [],
+    "sections": [],
+    "canvas": 0,
+    "footers": 0,
+    "bodyWidth": 390,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": []
+  },
+  {
+    "width": 390,
+    "route": "/booking",
+    "errors": [],
+    "failed": [],
+    "sections": [
+      {
+        "class": "booking-page",
+        "height": 1224,
+        "text": "01 ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€ ",
+        "opacity": "1"
+      }
+    ],
+    "canvas": 0,
+    "footers": 2,
+    "bodyWidth": 1814,
+    "viewport": 390,
+    "brokenImages": [],
+    "modelRequests": []
+  }
+]

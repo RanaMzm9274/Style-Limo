@@ -1,0 +1,119 @@
+Script completed
+Wall time 0.7 seconds
+Output:
+
+ const [idx,setIdx]=useState(0); const c=cars[idx];
+ const change=d=>setIdx(i=>(i+d+cars.length)%cars.length);
+ return <section className="fleet" id="fleet"><div className="shell"><div className="fleet-head"><div><div className="section-no">04 â€” THE COLLECTION</div><h2>THE <i>MACHINES.</i></h2></div><div className="fleet-nav"><span>0{idx+1} / 0{cars.length}</span><button onClick={()=>change(-1)}><ChevronLeft/></button><button onClick={()=>change(1)}><ChevronRight/></button></div></div><div className="fleet-stage" key={idx}><div className="fleet-name"><small>{c.brand}</small><strong>{c.name}</strong></div><img src={c.image}/><div className="fleet-specs"><div><b>{c.power}</b><span>POWER</span></div><div><b>{c.speed}</b><span>TOP SPEED</span></div><div><b>{c.zero}</b><span>0â€”62 MPH</span></div></div><div className="fleet-price"><span>FROM</span><b>{c.price==="POA"?"POA":`Â£${c.price}`}</b><span>{c.price==="POA"?"":" / DAY"}</span><button>VIEW CAR <ArrowRight/></button></div></div><div className="fleet-strip">{cars.map((x,i)=><button key={x.name} className={i===idx?"on":""} onClick={()=>setIdx(i)}><span>0{i+1}</span>{x.name}</button>)}</div></div></section>
+}
+
+
+const configuratorCars=[
+ {id:"gt3",brand:"PORSCHE",name:"911 GT3",power:"510 PS",zero:"3.4 SEC",speed:"198 MPH",price:"Â£495 / DAY",model:"/models/2022_porsche_911_gt3_992-optimized.glb",rot:[0,0,0]},
+ {id:"huracan",brand:"LAMBORGHINI",name:"HURACÃN EVO",power:"640 PS",zero:"2.9 SEC",speed:"202 MPH",price:"Â£795 / DAY",model:"/models/2019_lamborghini_huracan_evo-optimized.glb",rot:[0,0,0]},
+ {id:"gt",brand:"BENTLEY",name:"CONTINENTAL GT",power:"542 PS",zero:"3.9 SEC",speed:"198 MPH",price:"Â£575 / DAY",model:"/models/bentley-continental-gt.glb",rot:[0,Math.PI,0]},
+ {id:"rr",brand:"RANGE ROVER",name:"AUTOBIOGRAPHY",power:"523 PS",zero:"4.4 SEC",speed:"155 MPH",price:"Â£450 / DAY",model:"/models/2022_land_rover_range_rover.glb",rot:[0,0,0]}
+];
+const paintColors=["#171717","#e8e5dd","#9d0d14","#123f70","#52624b","#c5a66a"];
+
+function ModelLoader(){const {progress}=useProgress();return <Html center><div className="model-loader"><b>{Math.round(progress)}%</b><span>LOADING MACHINE</span></div></Html>}
+function ActualCar({car,color,progress,dragRotation}){
+ const group=useRef(); const {scene}=useGLTF(car.model, "/draco/");
+ const model=React.useMemo(()=>{
+  const cloned=scene.clone(true);
+  cloned.traverse(o=>{if(!o.isMesh)return;o.castShadow=true;o.receiveShadow=true;if(o.material)o.material=o.material.clone()});
+  // Normalize after applying the source model's corrective orientation. This fixes Bentley's offset/orientation.
+  const wrapper=new THREE.Group(); wrapper.add(cloned); cloned.rotation.set(...(car.rot||[0,0,0])); wrapper.updateMatrixWorld(true);
+  const box=new THREE.Box3().setFromObject(wrapper),size=new THREE.Vector3(),center=new THREE.Vector3();box.getSize(size);box.getCenter(center);
+  cloned.position.sub(wrapper.worldToLocal(center.clone())); const max=Math.max(size.x,size.y,size.z)||1; wrapper.scale.setScalar(6.54/max);
+  return wrapper;
+ },[scene,car.id]);
+ useEffect(()=>{
+  // Exact paint material mappings first. Range Rover's source uses Portuguese material names.
+  const exact={gt3:/Porsche_911GT3_2022Paint_Material/i,huracan:/PaintTNR/i,rr:/Carro_Pintura|Carro_Metal_Vermelho/i,gt:/Meshesmeshes1bumpfrontok0021Mtl/i};
+  const bodyHints=/body|paint|pintura|metal_vermelho|exterior|carrosserie|karosserie|hood|bonnet|door|fender|bumper|quarter|roof|boot/i;
+  const exclude=/glass|vidro|window|wind|tire|tyre|pneu|wheel|roda|rim|brake|disc|caliper|light|farol|lamp|chrome|cromado|interior|interno|seat|carbon|rubber|plastico/i;
+  let candidates=[]; model.traverse(o=>{if(!o.isMesh||!o.material)return;const n=`${o.name} ${o.material.name||''}`;if(exact[car.id]?.test(n)||(!exclude.test(n)&&bodyHints.test(n)))candidates.push(o)});
+  // Bentley has generic material names; choose exterior panels by node/material naming and surface size.
+  if(car.id==='gt') model.traverse(o=>{if(o.isMesh&&o.material){const n=`${o.name} ${o.material.name||''}`;if(exact.gt.test(n)&&!candidates.includes(o))candidates.push(o)}});
+  candidates.forEach(o=>{if(o.material.color){if(car.id==='gt'){o.material.map=null;o.material.roughness=.24;o.material.metalness=.55}o.material.color.set(color);o.material.metalness=Math.max(o.material.metalness||0,.35);o.material.needsUpdate=true}});
+ },[model,color,car.id]);
+ useFrame(()=>{if(group.current)group.current.rotation.y=progress.current*Math.PI*2+dragRotation.current});
+ return <group ref={group} position={[0,-.12,0]}><primitive object={model}/></group>
+}
+function ConfiguratorScene({car,color,progress,dragRotation}){
+ return <Canvas camera={{position:[5.2,2.25,5.2],fov:35}} dpr={[1,1.15]} gl={{antialias:true,powerPreference:"high-performance",toneMapping:THREE.ACESFilmicToneMapping}}>
+  <ambientLight intensity={.72}/><directionalLight position={[5,7,4]} intensity={2.4}/><directionalLight position={[-5,2,-3]} intensity={.9}/>
+  <React.Suspense fallback={<ModelLoader/>}><ActualCar car={car} color={color} progress={progress} dragRotation={dragRotation}/><Environment preset="city"/></React.Suspense>
+  <ContactShadows position={[0,-.23,0]} opacity={.5} scale={11} blur={2.5} far={5} resolution={128} frames={1}/>
+  <OrbitControls enableRotate={false} enableZoom={false} enablePan={false} enableDamping dampingFactor={.08} minPolarAngle={Math.PI*.35} maxPolarAngle={Math.PI*.62}/>
+ </Canvas>
+}
+function ThreeDConfigurator(){
+ const ref=useRef(), progress=useRef(0), dragRotation=useRef(0);
+ const [active,setActive]=useState(0),[color,setColor]=useState(paintColors[0]),[pct,setPct]=useState(0);
+ const car=configuratorCars[active];
+ useGSAP(()=>{
+  const st=ScrollTrigger.create({
+   trigger:ref.current,start:"top top",end:"+=2400",pin:true,scrub:true,anticipatePin:1,
+   onUpdate:self=>{progress.current=self.progress;setPct(Math.round(self.progress*360))}
+  });
+  return()=>st.kill();
+ },{scope:ref});
+ return <section className="configurator" ref={ref}>
+  <div className="configurator-grid"/>
+  <div className="shell config-inner">
+   <div className="config-top"><div><div className="section-no">05 â€” 3D CONFIGURATOR</div><h2>MAKE IT<br/><i>YOURS.</i></h2></div><div className="rotation-meter"><span>SCROLL TO ROTATE</span><b>{pct}Â°</b><div><i style={{width:`${pct/3.6}%`}}/></div></div></div>
+   <div className="model-stage"><div className="canvas-wrap"><ConfiguratorScene car={car} color={color} progress={progress} dragRotation={dragRotation}/><div className="stage-ring"/><span className="drag-note">360Â° VIEW Â· SCROLL / CLICK + DRAG</span></div>
+    <aside className="config-panel">
+     <div className="selected-name"><small>{car.brand}</small><strong>{car.name}</strong></div>
+     <div className="config-specs"><div><b>{car.power}</b><span>POWER</span></div><div><b>{car.zero}</b><span>0â€”62 MPH</span></div><div><b>{car.speed}</b><span>TOP SPEED</span></div></div>
+     <div className="paint"><span>PAINT / SELECT COLOUR</span><div>{paintColors.map(c=><button type="button" key={c} aria-label={"Select "+c} className={color===c?"selected":""} style={{background:c}} onClick={()=>setColor(c)}/>)}</div></div>
+     <div className="config-price"><span>FROM</span><b>{car.price}</b></div><a href="#booking">CONFIGURE & RESERVE <ArrowRight/></a>
+    </aside>
+   </div>
+   <div className="model-selector">{configuratorCars.map((c,i)=><button type="button" className={i===active?"active":""} onClick={()=>{setActive(i);setColor(paintColors[0])}} key={c.id}><span>0{i+1}</span><div><small>{c.brand}</small><b>{c.name}</b></div></button>)}</div>
+  </div>
+ </section>
+}
+
+function SelBanner(){
+ const [active,setActive]=useState(0),[color,setColor]=useState(paintColors[0]);
+ const car=configuratorCars[active];
+ const progress=useRef(0),dragRotation=useRef(0);
+ const drag=useRef({active:false,x:0,rotation:0});
+ const startDrag=e=>{drag.current={active:true,x:e.clientX,rotation:dragRotation.current};e.currentTarget.setPointerCapture?.(e.pointerId)};
+ const moveDrag=e=>{if(!drag.current.active)return;dragRotation.current=drag.current.rotation+(e.clientX-drag.current.x)*0.012};
+ const stopDrag=()=>{drag.current.active=false};
+ return <section className="sel-banner" id="top">
+  <div className="sel-banner-glow"/>
+  <div className="shell sel-banner-top"><div className="sel-eyebrow"><span className="sel-dot"/> EXCEPTIONAL CARS. EXTRAORDINARY JOURNEYS.</div><div className="sel-index">LONDON Ã‚Â· UNITED KINGDOM<span>EST. 2014</span></div></div>
+  <div className="shell"><h1 className="sel-heading"><span>Beyond the</span><span className="sel-outline">ordinary<span className="sel-period">.</span></span></h1></div>
+  <div className="sel-scene" onPointerDown={startDrag} onPointerMove={moveDrag} onPointerUp={stopDrag} onPointerCancel={stopDrag} onPointerLeave={stopDrag}><ConfiguratorScene car={car} color={color} progress={progress} dragRotation={dragRotation}/></div>
+  <div className="sel-caption"><span/>THE ART OF ARRIVING.</div>
+  <div className="shell sel-banner-bottom"><div><p>For the drive. For the arrival.<br/>For the moments that stay with you.</p><a href="#fleet" className="sel-button">EXPLORE THE COLLECTION <ArrowRight size={16}/></a></div>
+   <div className="sel-model-info"><small>THE SPOTLIGHT / 0{active+1}</small><h3>{car.name}</h3><div className="sel-swatches">{paintColors.slice(0,3).map(c=><button type="button" key={c} aria-label={'Select '+c} className={color===c?'selected':''} style={{'--swatch':c}} onClick={()=>setColor(c)}/>)}<span>DRAG TO EXPLORE</span></div></div>
+   <a href="#experience" className="sel-scroll"><ArrowDown size={16}/> SCROLL TO DISCOVER</a>
+  </div>
+  <div className="shell sel-model-selector">{configuratorCars.map((c,i)=><button type="button" key={c.id} aria-pressed={active===i} className={active===i?'active':''} onClick={()=>{setActive(i);setColor(paintColors[0])}}><span>0{i+1}</span><div><small>{c.brand}</small><b>{c.name}</b></div></button>)}</div>
+ </section>
+}
+
+function ServicesGrid(){
+ const services=[
+  ["01","PRIVATE CHAUFFEUR","Door-to-door luxury travel with professional chauffeurs.","EXECUTIVE"],
+  ["02","SELF DRIVE","Performance cars delivered ready for your own journey.","PERFORMANCE"],
+  ["03","AIRPORT TRANSFER","Flight-monitored collection and effortless airport transfers.","24 / 7"],
+  ["04","WEDDINGS & EVENTS","Statement vehicles and discreet chauffeur service for big moments.","OCCASIONS"],
+  ["05","CORPORATE","Executive mobility for meetings, roadshows and VIP guests.","BUSINESS"],
+  ["06","LONG TERM HIRE","Flexible premium vehicle hire for extended stays and projects.","FLEXIBLE"]
+ ];
+ return <section className="service-grid-section" id="services"><div className="shell"><div className="grid-heading reveal-up"><div className="section-no">06 â€” WHAT WE DO</div><h2>ONE STANDARD.<br/><i>EVERY JOURNEY.</i></h2><p>From a single airport transfer to a weekend behind the wheel, every service is designed around time, privacy and detail.</p></div><div className="service-grid">{services.map((s,i)=><article className={"service-card service-card-"+i} key={s[1]}><div className="service-card-top"><span>{s[0]}</span><small>{s[3]}</small></div><div className="service-icon"><span>â†—</span></div><div><h3>{s[1]}</h3><p>{s[2]}</p></div><a href="#booking">EXPLORE <ArrowRight size={15}/></a></article>)}</div></div></section>
+}
+function CarListing(){
+ return <section className="car-listing"><div className="shell"><div className="listing-head reveal-up"><div><div className="section-no">07 â€” AVAILABLE NOW</div><h2>FIND YOUR<br/><i>NEXT DRIVE.</i></h2></div><a href="#fleet">VIEW FULL FLEET <ArrowRight/></a></div><div className="car-grid">{cars.slice(0,6).map((c,i)=><article className="car-card" key={c.name}><div className="car-card-img"><img src={c.image}/><div className="car-index">0{i+1}</div><div className="availability">AVAILABLE</div></div><div className="car-card-title"><div><small>{c.brand}</small><h3>{c.name}</h3></div><b>{c.price==="POA"?"POA":`Â£${c.price}`}<small>{c.price==="POA"?"":" / DAY"}</small></b></div><div className="mini-specs"><span>{c.power}</span><span>{c.zero} 0â€”62</span><span>{c.speed}</span></div><a href="#booking">RESERVE THIS CAR <ArrowRight size={15}/></a></article>)}</div></div></section>
+}
+function Numbers(){
+ return <section className="numbers"><div className="numbers-marquee"><div>PERFORMANCE Â· PRIVACY Â· PRECISION Â· PERFORMANCE Â· PRIVACY Â· PRECISION Â·</div></div><div className="shell number-grid"><article><b>24<span>/7</span></b><p>Concierge & chauffeur support</p></article><article><b>30<span>+</span></b><p>Premium & performance vehicles</p></article><article><b>15<span>MIN</span></b><p>Average booking response</p></article><article><b>100<span>%</span></b><p>Detail-led service</p></article></div></section>
+}
+function Destinations(){

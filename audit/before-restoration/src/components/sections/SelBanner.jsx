@@ -1,0 +1,2 @@
+import React from "react";
+export default function SelBanner(){return <section className="sel-banner"><div className="shell sel-banner-top"><div className="sel-eyebrow">EXCEPTIONAL CARS. EXTRAORDINARY JOURNEYS.</div></div><div className="shell"><h1 className="sel-heading"><span>Beyond the</span><span className="sel-outline">ordinary<span className="sel-period">.</span></span></h1></div></section>}

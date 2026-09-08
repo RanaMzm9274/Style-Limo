@@ -1,0 +1,35 @@
+[
+  {
+    "width": 1440,
+    "errors": [],
+    "modelRequests": [
+      "http://localhost:5173/models/2019_lamborghini_huracan_evo-optimized.glb",
+      "http://localhost:5173/models/bentley-continental-gt.glb",
+      "http://localhost:5173/models/2022_land_rover_range_rover.glb"
+    ],
+    "drag": true,
+    "experience": true,
+    "fleetSlider": true,
+    "journey": true,
+    "navigationCleanup": true,
+    "bookingHandoff": true
+  },
+  {
+    "width": 390,
+    "errors": [],
+    "modelRequests": [
+      "http://localhost:5173/models/2019_lamborghini_huracan_evo-optimized.glb",
+      "http://localhost:5173/models/bentley-continental-gt.glb",
+      "http://localhost:5173/models/2022_land_rover_range_rover.glb"
+    ],
+    "drag": true,
+    "experience": true,
+    "fleetSlider": true,
+    "journey": true,
+    "navigationCleanup": true,
+    "bookingHandoff": true
+  },
+  {
+    "reducedMotion": true
+  }
+]

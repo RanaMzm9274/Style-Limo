@@ -1,0 +1,74 @@
+[
+  {
+    "name": "SelBanner",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/SelBanner.jsx"
+  },
+  {
+    "name": "Manifesto",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  },
+  {
+    "name": "Experience",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  },
+  {
+    "name": "Fleet",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  },
+  {
+    "name": "ServicesGrid",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/ServicesGrid.jsx"
+  },
+  {
+    "name": "CarListing",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  },
+  {
+    "name": "Numbers",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  },
+  {
+    "name": "Chauffeur",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  },
+  {
+    "name": "Journey",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  },
+  {
+    "name": "Destinations",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  },
+  {
+    "name": "Reviews",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  },
+  {
+    "name": "Booking",
+    "previousFunctionFound": true,
+    "currentFunctionFound": true,
+    "file": "src/components/sections/HomeSections.jsx"
+  }
+]
