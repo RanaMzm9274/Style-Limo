@@ -23,6 +23,11 @@ export default function SelBanner() {
     [color, setColor] = useState(paintColors[0]);
   const [sceneReady, setSceneReady] = useState(false);
   const car = configuratorCars[active];
+  const isSingleColorCar = car?.id === "F430" || car?.id === "land-rover-sport-limo" || car?.id === "rolls-royce-cullinan-2025" || car?.id === "rolls-royce-phantom";
+  const visiblePaintColors = car?.id === "land-rover-sport-limo" || car?.id === "rolls-royce-cullinan-2025" || car?.id === "rolls-royce-phantom"
+    ? [paintColors[1]]
+    : isSingleColorCar ? paintColors.slice(0, 1) : paintColors.slice(0, 3);
+  const selectedColor = car?.id === "land-rover-sport-limo" || car?.id === "rolls-royce-cullinan-2025" || car?.id === "rolls-royce-phantom" ? paintColors[1] : color;
   const progress = useRef(0),
     dragRotation = useRef(0);
   useEffect(() => {
@@ -96,7 +101,7 @@ export default function SelBanner() {
           <React.Suspense fallback={<div className="scene-placeholder" role="status">Loading 3D preview...</div>}>
             <ConfiguratorScene
             car={car}
-            color={color}
+              color={selectedColor}
             progress={progress}
             dragRotation={dragRotation}
           /></React.Suspense>
@@ -126,12 +131,12 @@ export default function SelBanner() {
           <small>THE SPOTLIGHT / 0{active + 1}</small>
           <h3>{car.name}</h3>
           <div className="sel-swatches">
-            {paintColors.slice(0, 3).map((c) => (
+            {visiblePaintColors.map((c) => (
               <button
                 type="button"
                 key={c}
                 aria-label={"Select " + c}
-                className={color === c ? "selected" : ""}
+                className={selectedColor === c ? "selected" : ""}
                 style={{ "--swatch": c }}
                 onClick={() => setColor(c)}
               />
@@ -152,7 +157,7 @@ export default function SelBanner() {
             className={active === i ? "active" : ""}
             onClick={() => {
               setActive(i);
-              setColor(paintColors[0]);
+              setColor(c.id === "land-rover-sport-limo" || c.id === "rolls-royce-cullinan-2025" || c.id === "rolls-royce-phantom" ? paintColors[1] : paintColors[0]);
             }}
           >
             <span>0{i + 1}</span>

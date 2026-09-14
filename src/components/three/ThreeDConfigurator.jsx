@@ -4,7 +4,14 @@ import {ScrollTrigger} from "gsap/ScrollTrigger";
 import {useGSAP} from "@gsap/react";
 import {ArrowRight} from "lucide-react";
 const ConfiguratorScene=React.lazy(()=>import("./ConfiguratorScene.jsx").then(m=>({default:m.ConfiguratorScene})));
-import {configuratorCars,paintColors} from "../../data/cars.js";
+import {paintColors} from "../../data/cars.js";
+
+const configuratorCars = [
+  { id: "ferrari-f430-limo", brand: "FERRARI", name: "F430 LIMO", power: "490 PS", zero: "4.0 SEC", speed: "196 MPH", price: "£495 / DAY", model: "/models/ferrari_f430_limo.glb", rot: [0, 0, 0] },
+  { id: "land-rover-sport-limo", brand: "LAND ROVER", name: "SPORT LIMO", power: "510 PS", zero: "5.8 SEC", speed: "140 MPH", price: "POA", model: "/models/land-rover.glb", rot: [0, 0, 0] },
+  { id: "rolls-royce-cullinan-2025", brand: "ROLLS-ROYCE", name: "CULLINAN 2025", power: "563 PS", zero: "5.2 SEC", speed: "155 MPH", price: "£1,950 / DAY", model: "/models/rolls-royce-cullinan.glb", rot: [0, 0, 0] },
+  { id: "rolls-royce-phantom", brand: "ROLLS-ROYCE", name: "PHANTOM", power: "563 PS", zero: "5.4 SEC", speed: "155 MPH", price: "£2,250 / DAY", model: "/models/rolls-phantom.glb", rot: [0, 0, 0] },
+];
 
 function ThreeDConfigurator() {
   const ref = useRef(),

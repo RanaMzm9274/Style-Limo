@@ -81,6 +81,78 @@ function ActualCar({ car, color, progress, dragRotation }) {
         o.material.needsUpdate = true;
       }
     });
+    if (car.id === "land-rover-sport-limo" || car.id === "rolls-royce-cullinan-2025") {
+      const excludedExterior = /glass|window|windshield|tire|tyre|wheel|rim|brake|disc|caliper|light|lamp|chrome|interior|seat|leather|dashboard|dash|door[_ -]?panel|carpet|stitch|trim|rubber|carbon/i;
+      model.traverse((o) => {
+        if (!o.isMesh || !o.material) return;
+        const materials = Array.isArray(o.material) ? o.material : [o.material];
+        const label = `${o.name || ""} ${materials.map((m) => m?.name || "").join(" ")}`;
+        if (excludedExterior.test(label)) return;
+        materials.forEach((material) => {
+          if (!material?.color) return;
+          if (car.id === "land-rover-sport-limo") {
+            material.map = null;
+            if (material.emissive) material.emissive.set("#000000");
+            material.emissiveIntensity = 0;
+          }
+          if (car.id === "rolls-royce-cullinan-2025" && /^(carpaint|qimian)$/i.test(material.name || "")) {
+            material.map = null;
+          }
+          material.color.set("#e8e5dd");
+          material.metalness = Math.min(material.metalness ?? 0.2, 0.35);
+          material.roughness = Math.max(material.roughness ?? 0.42, 0.3);
+          material.needsUpdate = true;
+        });
+      });
+    }
+    if (car.id === "rolls-royce-cullinan-2025") {
+      const frontLightHints = /head.?light|front.?light|light.?front|headlamp|farol.?front|^(light|light_nm2|dadengduge|lightbump)$/i;
+      const rearLightHints = /tail.?light|rear.?light|back.?light|stop.?light|taillamp|farol.?rear|^(rearlight_emissive|brakelight_m)$/i;
+      const grilleHints = /grill|grille|radiator|mesh.?front|^(zhongleng|ext_chrome|light_chrome)$/i;
+      const blackStripHints = /black.?strip|dark.?strip|bumper.?strip|body.?strip|side.?strip|trim.?black|^(duge|dadengxunhei|black|ext_black)$/i;
+      model.traverse((o) => {
+        if (!o.isMesh || !o.material) return;
+        const materials = Array.isArray(o.material) ? o.material : [o.material];
+        const label = `${o.name || ""} ${materials.map((m) => m?.name || "").join(" ")}`;
+        const materialNames = materials.map((m) => m?.name || "").join(" ");
+        let finish = null;
+        if (frontLightHints.test(label) || frontLightHints.test(materialNames)) finish = { color: "#7c8288", emissive: "#34383d", intensity: 0.12, metalness: 0.18, roughness: 0.28 };
+        else if (rearLightHints.test(label) || rearLightHints.test(materialNames)) finish = { color: "#d10f1b", emissive: "#7a0008", intensity: 0.5, metalness: 0.05, roughness: 0.22 };
+        else if (grilleHints.test(label) || grilleHints.test(materialNames)) finish = { color: "#d7d9d8", emissive: "#000000", intensity: 0, metalness: 0.92, roughness: 0.12 };
+        else if (blackStripHints.test(label) || blackStripHints.test(materialNames)) finish = { color: "#080808", emissive: "#000000", intensity: 0, metalness: 0.15, roughness: 0.32 };
+        if (!finish) return;
+        materials.forEach((material) => {
+          if (!material?.color) return;
+          if (grilleHints.test(material.name || "")) material.map = null;
+          material.color.set(finish.color);
+          material.metalness = finish.metalness;
+          material.roughness = finish.roughness;
+          if (material.emissive) {
+            material.emissive.set(finish.emissive);
+            material.emissiveIntensity = finish.intensity;
+            if ((frontLightHints.test(material.name || "") || rearLightHints.test(material.name || "")) && material.map) {
+              material.emissiveMap = material.map;
+              material.toneMapped = false;
+            }
+          }
+          material.needsUpdate = true;
+        });
+      });
+    }
+    if (car.id === "rolls-royce-cullinan-2025") {
+      const interiorHints = /interior|seat|leather|dashboard|dash|door[_ -]?panel|carpet|stitch|trim/i;
+      model.traverse((o) => {
+        if (!o.isMesh || !o.material) return;
+        const materials = Array.isArray(o.material) ? o.material : [o.material];
+        materials.forEach((material) => {
+          const label = `${o.name || ""} ${material?.name || ""}`;
+          if (!material?.color || !interiorHints.test(label)) return;
+          material.color.set("#8b1118");
+          material.roughness = Math.max(material.roughness ?? 0.45, 0.38);
+          material.needsUpdate = true;
+        });
+      });
+    }
     const accent=getRimAccent(color);
     const rimHints=/rim|alloy|felge|jante|cerchione|roda[_\s-]*(metal|liga|crom)|wheel[_\s-]*(metal|alloy|rim)|wheels?\b/i;
     const rubberHints=/tire|tyre|pneu|rubber|borracha|brake|disc|rotor|caliper/i;

@@ -2,6 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 import multer from "multer";
+import nodemailer from "nodemailer";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -18,13 +19,13 @@ fs.mkdirSync(dataDir, { recursive: true });
 fs.mkdirSync(uploadDir, { recursive: true });
 
 const seedBanner = {
-  eyebrow: "EXCEPTIONAL CARS. EXTRAORDINARY JOURNEYS.",
-  headingLine1: "Beyond the",
-  headingLine2: "ordinary.",
-  taglineLine1: "For the drive. For the arrival.",
-  taglineLine2: "For the moments that stay with you.",
+  eyebrow: "PRIVATE DRIVES. ICONIC ARRIVALS.",
+  headingLine1: "Make an",
+  headingLine2: "entrance.",
+  taglineLine1: "Luxury vehicles. Thoughtful service.",
+  taglineLine2: "Every journey, considered.",
   cars: [
-    { id: "gt3", brand: "PORSCHE", name: "911 GT3", power: "510 PS", zero: "3.4 SEC", speed: "198 MPH", price: "£495 / DAY", model: "/models/2022_porsche_911_gt3_992-optimized.glb", rot: [0, 0, 0] },
+    { id: "F430", brand: "FERRARI", name: "F430", power: "490 PS", zero: "4.0 SEC", speed: "196 MPH", price: "£495 / DAY", model: "/models/ferrari_f430_limo.glb", rot: [0, 0, 0] },
     { id: "huracan", brand: "LAMBORGHINI", name: "HURACÁN EVO", power: "640 PS", zero: "2.9 SEC", speed: "202 MPH", price: "£795 / DAY", model: "/models/2019_lamborghini_huracan_evo-optimized.glb", rot: [0, 0, 0] },
     { id: "gt", brand: "BENTLEY", name: "CONTINENTAL GT", power: "542 PS", zero: "3.9 SEC", speed: "198 MPH", price: "£575 / DAY", model: "/models/bentley-continental-gt.glb", rot: [0, Math.PI, 0] },
     { id: "rr", brand: "RANGE ROVER", name: "AUTOBIOGRAPHY", power: "523 PS", zero: "4.4 SEC", speed: "155 MPH", price: "£450 / DAY", model: "/models/2022_land_rover_range_rover.glb", rot: [0, 0, 0] },
@@ -71,9 +72,39 @@ const requireAdmin = async (req, res, next) => {
   req.user = user; next();
 };
 
+const smtpConfigured = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS && process.env.SMTP_TO);
+const mailTransport = () => nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT || 587),
+  secure: String(process.env.SMTP_SECURE || "false") === "true",
+  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+});
+
 app.get("/api/public/banner", async(_req, res) => res.json(await store.getContent("banner")));
 app.get("/api/public/fleet", async(_req, res) => res.json(await store.getContent("fleet")));
 app.get("/api/public/booking-settings",async(_req,res)=>res.json(await store.getContent("booking_settings")));
+app.post("/api/public/booking-request", rateLimit, async (req, res) => {
+  const input = req.body || {};
+  const fields = ["service", "vehicle", "date", "duration", "name", "email", "phone"];
+  const request = Object.fromEntries(fields.map((key) => [key, String(input[key] || "").trim()]));
+  if (fields.some((key) => !request[key]) || !/^\S+@\S+\.\S+$/.test(request.email))
+    return res.status(400).json({ error: "Please complete all booking details with a valid email address." });
+  if (!smtpConfigured()) return res.status(503).json({ error: "Email service is not configured yet." });
+  try {
+    await mailTransport().sendMail({
+      from: process.env.SMTP_FROM || process.env.SMTP_USER,
+      to: process.env.SMTP_TO,
+      replyTo: request.email,
+      subject: `New booking request — ${request.vehicle}`,
+      text: [`New Style Express Limo booking request`, ``, `Name: ${request.name}`, `Email: ${request.email}`, `Phone: ${request.phone}`, `Service: ${request.service}`, `Vehicle: ${request.vehicle}`, `Date: ${request.date}`, `Duration: ${request.duration}`].join("\n"),
+      html: `<h2>New Style Express Limo booking request</h2><p><b>Name:</b> ${request.name}</p><p><b>Email:</b> ${request.email}</p><p><b>Phone:</b> ${request.phone}</p><p><b>Service:</b> ${request.service}</p><p><b>Vehicle:</b> ${request.vehicle}</p><p><b>Date:</b> ${request.date}</p><p><b>Duration:</b> ${request.duration}</p>`,
+    });
+    res.status(201).json({ sent: true });
+  } catch (error) {
+    console.error("Booking email failed", error);
+    res.status(502).json({ error: "We could not send your request right now. Please try again." });
+  }
+});
 app.get("/api/auth/status", async(req, res) => {
   const token = req.cookies.style_express_admin;
   const user = token&&await store.findUserBySession(tokenHash(token));
