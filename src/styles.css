@@ -22,7 +22,7 @@ img { display: block; max-width: 100%; }
 
 :root {
     --black: #080808;
-    --paper: #15130f;
+    --paper: #f4f0e7;
     --lime: #ffbf00;
     --line: #3a3324;
     --muted: #a39a86
@@ -336,7 +336,7 @@ select {
     white-space: nowrap;
     font: 600 20vw/.8 "Manrope";
     letter-spacing: -.08em;
-    color: #ffffff025;
+    color: rgba(255, 255, 255, .025);
     left: 30%;
     top: 36%
 }
@@ -3125,11 +3125,13 @@ html[data-theme="light"] .service-promise { background:#252722; }
 
     .sel-model-info {
         margin: 0;
-        max-width: 150px
+        max-width: min(150px, 42vw)
     }
 
     .sel-model-info h3 {
-        font-size: 12px
+        max-width: 145px;
+        font-size: 12px;
+        line-height: 1.2
     }
 
     .sel-swatches span {
@@ -3146,12 +3148,25 @@ html[data-theme="light"] .service-promise { background:#252722; }
 
     .sel-model-selector {
         width: calc(100% - 40px);
-        grid-template-columns: repeat(2, 1fr)
+        bottom: 24px;
+        display: flex;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch
     }
 
+    .sel-model-selector::-webkit-scrollbar { display: none; }
+
     .sel-model-selector button {
-        min-height: 54px;
-        padding: 9px 10px
+        flex: 0 0 150px;
+        min-height: 58px;
+        padding: 9px 10px;
+        white-space: normal
+    }
+
+    .sel-model-selector b {
+        display: block;
+        line-height: 1.25
     }
 }
 
@@ -3175,8 +3190,8 @@ html[data-theme="light"] .service-promise { background:#252722; }
 
 @media(max-width:760px) {
     .sel-scene {
-        left: -17%;
-        right: -22%;
+        left: 0;
+        right: 0;
         top: 195px
     }
 }

@@ -31,9 +31,9 @@ export default function AboutPage() {
               calm, precise and personal.
             </p>
             <p>
-              Whether you take the wheel or the rear seat, the standard stays
-              the same: exceptional vehicles, transparent service and obsessive
-              attention to detail.
+              Whether you are travelling across town or across the country, the
+              standard stays the same: exceptional vehicles, attentive service
+              and obsessive attention to detail.
             </p>
           </div>
         </div>

@@ -55,13 +55,13 @@ export function Manifesto() {
 
 export function Experience() {
   const {vehicles:cars}=useFleet();
-  const [mode, setMode] = useState("self");
+  const mode = "chauffeur";
   return (
     <section className={"experience " + mode} id="experience">
       <div
         className="exp-bg"
         style={{
-          backgroundImage: `url(${mode === "self" ? (cars[1]||cars[0])?.image : (cars[5]||cars.at(-1))?.image})`,
+          backgroundImage: `url(${(cars[5]||cars.at(-1))?.image})`,
         }}
       />
       <div className="exp-shade" />
@@ -81,16 +81,6 @@ export function Experience() {
             <small>01</small>
             <b>CHAUFFEUR</b>
             <span>Arrive effortlessly.</span>
-            <ArrowRight />
-          </button>
-          <button
-            aria-pressed={mode === "self"}
-            onClick={() => setMode("self")}
-            className={mode === "self" ? "active" : ""}
-          >
-            <small>02</small>
-            <b>SELF DRIVE</b>
-            <span>Take control.</span>
             <ArrowRight />
           </button>
         </div>
@@ -148,12 +138,7 @@ export function Fleet() {
               <span>0—62 MPH</span>
             </div>
           </div>
-          <div className="fleet-price">
-            <span>FROM</span>
-            <b>{c.price === "POA" ? "POA" : `£${c.price}`}</b>
-            <span>{c.price === "POA" ? "" : " / DAY"}</span>
-            <Link className="fleet-view" to={`/booking?vehicle=${encodeURIComponent(c.brand+" "+c.name)}`}>VIEW CAR <ArrowRight /></Link>
-          </div>
+          <Link className="fleet-view" to={`/booking?vehicle=${encodeURIComponent(c.brand+" "+c.name)}`}>VIEW CAR <ArrowRight /></Link>
         </div>
         <div className="fleet-strip">
           {limoCars.map((x, i) => (
@@ -203,10 +188,6 @@ export function CarListing() {
                   <small>{c.brand}</small>
                   <h3>{c.name}</h3>
                 </div>
-                <b>
-                  {c.price === "POA" ? "POA" : `£${c.price}`}
-                  <small>{c.price === "POA" ? "" : " / DAY"}</small>
-                </b>
               </div>
               <div className="mini-specs">
                 <span>{c.power}</span>
@@ -348,7 +329,7 @@ export function Journey() {
     [
       "02",
       "BOOK",
-      "Reserve in minutes. Clear pricing, no unnecessary friction.",
+      "Reserve in minutes. Clear communication, no unnecessary friction.",
     ],
     [
       "03",

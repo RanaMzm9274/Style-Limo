@@ -13,7 +13,7 @@ export default function ServicesPage() {
         kicker="SERVICES"
         title="MOVE ON"
         accent="YOUR TERMS."
-        copy="Self-drive performance, professional chauffeur travel and tailored mobility for the moments that matter."
+        copy="Professional chauffeur travel and tailored mobility for the moments that matter."
         image={cars[5].image}
       />
       <ServicesGrid />
@@ -28,7 +28,7 @@ export default function ServicesPage() {
             [
               "02",
               "PERFORMANCE HIRE",
-              "Choose your car, set the pace and take the long way home. Every vehicle is prepared around your dates and route.",
+              "Choose your vehicle and route. Every journey is prepared around your dates and preferences with a professional chauffeur.",
             ],
             [
               "03",
@@ -69,7 +69,7 @@ export default function ServicesPage() {
         <div className="shell service-promise-inner">
           <div><div className="section-no">08 — THE PROMISE</div><h2>QUIETLY<br /><i>EXCEPTIONAL.</i></h2></div>
           <div className="promise-list">
-            {["A real person available when it matters.", "Vehicles prepared to an exacting standard.", "Clear pricing, clear communication, no surprises."].map((item, i) => <div key={item}><span>0{i + 1}</span><p>{item}</p></div>)}
+            {["A real person available when it matters.", "Vehicles prepared to an exacting standard.", "Clear communication, no surprises."].map((item, i) => <div key={item}><span>0{i + 1}</span><p>{item}</p></div>)}
           </div>
         </div>
       </section>

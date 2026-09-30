@@ -5,5 +5,5 @@ import App from "./App";
 import MaintenancePage from "./pages/MaintenancePage.jsx";
 import "./fonts.css";
 import "./styles.css";
-const RootApp=import.meta.env.DEV?App:MaintenancePage;
+const RootApp=App;
 createRoot(document.getElementById("root")).render(<BrowserRouter><RootApp/></BrowserRouter>);

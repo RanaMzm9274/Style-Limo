@@ -4,13 +4,13 @@ import {ScrollTrigger} from "gsap/ScrollTrigger";
 import {useGSAP} from "@gsap/react";
 import {ArrowRight} from "lucide-react";
 const ConfiguratorScene=React.lazy(()=>import("./ConfiguratorScene.jsx").then(m=>({default:m.ConfiguratorScene})));
-import {paintColors} from "../../data/cars.js";
+const previewColor = "#171717";
 
 const configuratorCars = [
-  { id: "ferrari-f430-limo", brand: "FERRARI", name: "F430 LIMO", power: "490 PS", zero: "4.0 SEC", speed: "196 MPH", price: "£495 / DAY", model: "/models/ferrari_f430_limo.glb", rot: [0, 0, 0] },
-  { id: "land-rover-sport-limo", brand: "LAND ROVER", name: "SPORT LIMO", power: "510 PS", zero: "5.8 SEC", speed: "140 MPH", price: "POA", model: "/models/land-rover.glb", rot: [0, 0, 0] },
-  { id: "rolls-royce-cullinan-2025", brand: "ROLLS-ROYCE", name: "CULLINAN 2025", power: "563 PS", zero: "5.2 SEC", speed: "155 MPH", price: "£1,950 / DAY", model: "/models/rolls-royce-cullinan.glb", rot: [0, 0, 0] },
-  { id: "rolls-royce-phantom", brand: "ROLLS-ROYCE", name: "PHANTOM", power: "563 PS", zero: "5.4 SEC", speed: "155 MPH", price: "£2,250 / DAY", model: "/models/rolls-phantom.glb", rot: [0, 0, 0] },
+  { id: "ferrari-f430-limo", brand: "FERRARI", name: "Ferrari 360 Modena Stretch Limousine", power: "490 PS", zero: "4.0 SEC", speed: "196 MPH", model: "/models/ferrari_f430_limo.glb", rot: [0, 0, 0] },
+  { id: "land-rover-sport-limo", brand: "LAND ROVER", name: "SPORT LIMO", power: "510 PS", zero: "5.8 SEC", speed: "140 MPH", model: "/models/land-rover.glb", rot: [0, 0, 0] },
+  { id: "rolls-royce-cullinan-2025", brand: "ROLLS-ROYCE", name: "CULLINAN 2025", power: "563 PS", zero: "5.2 SEC", speed: "155 MPH", model: "/models/rolls-royce-cullinan.glb", rot: [0, 0, 0] },
+  { id: "rolls-royce-phantom", brand: "ROLLS-ROYCE", name: "PHANTOM", power: "563 PS", zero: "5.4 SEC", speed: "155 MPH", model: "/models/rolls-phantom.glb", rot: [0, 0, 0] },
 ];
 
 function ThreeDConfigurator() {
@@ -18,7 +18,6 @@ function ThreeDConfigurator() {
     progress = useRef(0),
     dragRotation = useRef(0);
   const [active, setActive] = useState(0),
-    [color, setColor] = useState(paintColors[0]),
     [pct, setPct] = useState(0);
   const car = configuratorCars[active];
   const drag=useRef(null);
@@ -70,7 +69,7 @@ function ThreeDConfigurator() {
             <React.Suspense fallback={<div className="scene-placeholder" role="status">Loading 3D preview...</div>}>
             <ConfiguratorScene
               car={car}
-              color={color}
+              color={previewColor}
               progress={progress}
               dragRotation={dragRotation}
             /></React.Suspense>
@@ -96,25 +95,6 @@ function ThreeDConfigurator() {
                 <span>TOP SPEED</span>
               </div>
             </div>
-            <div className="paint">
-              <span>PAINT / SELECT COLOUR</span>
-              <div>
-                {paintColors.map((c) => (
-                  <button
-                    type="button"
-                    key={c}
-                    aria-label={"Select " + c}
-                    className={color === c ? "selected" : ""}
-                    style={{ background: c }}
-                    onClick={() => setColor(c)}
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="config-price">
-              <span>FROM</span>
-              <b>{car.price}</b>
-            </div>
             <a href={`/booking?vehicle=${encodeURIComponent(car.brand+" "+car.name)}`}>
               CONFIGURE & RESERVE <ArrowRight />
             </a>
@@ -125,10 +105,7 @@ function ThreeDConfigurator() {
             <button
               type="button"
               className={i === active ? "active" : ""}
-              onClick={() => {
-                setActive(i);
-                setColor(paintColors[0]);
-              }}
+              onClick={() => setActive(i)}
               key={c.id}
             >
               <span>0{i + 1}</span>

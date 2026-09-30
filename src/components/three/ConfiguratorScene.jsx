@@ -185,6 +185,7 @@ function ActualCar({ car, color, progress, dragRotation }) {
 }
 export function ConfiguratorScene({ car, color, progress, dragRotation }) {
   const host=useRef();const [visible,setVisible]=useState(true);
+  const mobileCamera = typeof window !== "undefined" && window.matchMedia("(max-width: 760px)").matches;
   useEffect(()=>{const observer=new IntersectionObserver(([e])=>setVisible(e.isIntersecting));observer.observe(host.current);return()=>observer.disconnect()},[]);
   return (
     <div ref={host} style={{width:"100%",height:"100%"}}>
@@ -192,7 +193,7 @@ export function ConfiguratorScene({ car, color, progress, dragRotation }) {
     <Canvas
       frameloop={visible?"always":"never"}
       fallback={<div className="scene-error">3D preview is unavailable on this device. Explore the collection below.</div>}
-      camera={{ position: [5.2, 2.25, 5.2], fov: 35 }}
+      camera={{ position: [5.2, 2.25, 5.2], fov: mobileCamera ? 46 : 35 }}
       dpr={[1, 1.05]}
       gl={{
         antialias: false,
