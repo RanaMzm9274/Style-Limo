@@ -3,7 +3,7 @@ import {Link,useNavigate} from "react-router-dom";
 import {ArrowRight,ChevronLeft,ChevronRight} from "lucide-react";
 import gsap from "gsap";
 import {useGSAP} from "@gsap/react";
-import {useFleet} from "../../hooks/useFleet.js";
+import {sortFleetRollsRoyceFirst,useFleet} from "../../hooks/useFleet.js";
 import {useBookingSettings} from "../../hooks/useBookingSettings.js";
 
 export function Manifesto() {
@@ -91,8 +91,8 @@ export function Experience() {
 
 export function Fleet() {
   const {vehicles}=useFleet();
-  const chauffeurCars=vehicles.filter(car=>car.categories.includes("CHAUFFEUR"));
-  const limoCars=chauffeurCars.length?chauffeurCars:vehicles;
+  const chauffeurCars=sortFleetRollsRoyceFirst(vehicles.filter(car=>car.categories.includes("CHAUFFEUR")));
+  const limoCars=chauffeurCars.length?chauffeurCars:sortFleetRollsRoyceFirst(vehicles);
   const [idx, setIdx] = useState(0);
   const c = limoCars[idx];
   const change = (d) => setIdx((i) => (i + d + limoCars.length) % limoCars.length);
@@ -159,6 +159,7 @@ export function Fleet() {
 
 export function CarListing() {
   const {vehicles:cars}=useFleet();
+  const orderedCars=sortFleetRollsRoyceFirst(cars);
   return (
     <section className="car-listing">
       <div className="shell">
@@ -176,10 +177,19 @@ export function CarListing() {
           </a>
         </div>
         <div className="car-grid">
-          {cars.slice(0, 6).map((c, i) => (
-            <article className="car-card" key={c.name}>
+          {orderedCars.slice(0, 6).map((c, i) => (
+            <article
+              className={`car-card${c.id === "hummer-stretch-limo" ? " hummer-card" : ""}${c.hoverImage ? " has-hover-image" : ""}`}
+              key={c.name}
+            >
               <div className="car-card-img">
                 <img src={c.image} alt={`${c.brand} ${c.name}`} loading="lazy" decoding="async" />
+                {c.hoverImage && (
+                  <>
+                    <img className="car-card-img-alt" src={c.hoverImage} alt="" loading="lazy" decoding="async" />
+                    <span className="car-card-img-label">DETAIL VIEW</span>
+                  </>
+                )}
                 <div className="car-index">0{i + 1}</div>
                 <div className="availability">AVAILABLE</div>
               </div>

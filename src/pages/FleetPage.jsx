@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { useFleet } from "../hooks/useFleet.js";
+import { sortFleetRollsRoyceFirst, useFleet } from "../hooks/useFleet.js";
 import PageHero from "./PageHero.jsx";
 import ThreeDConfigurator from "../components/three/ThreeDConfigurator.jsx";
 
 export default function FilteredFleetPage() {
   const { categories, vehicles: cars } = useFleet();
+  const orderedCars = sortFleetRollsRoyceFirst(cars);
   const [filter, setFilter] = useState("ALL");
   useEffect(() => {
     if (filter !== "ALL" && !categories.includes(filter)) setFilter("ALL");
   }, [categories, filter]);
   const visible =
     filter === "ALL"
-      ? cars
-      : cars.filter((car) => car.categories.includes(filter));
+      ? orderedCars
+      : orderedCars.filter((car) => car.categories.includes(filter));
   return (
     <>
       <PageHero
@@ -23,7 +24,7 @@ export default function FilteredFleetPage() {
         title="CHOOSE YOUR"
         accent="MACHINE."
         copy="A curated collection of performance, grand touring, SUV and chauffeur vehicles."
-        image={cars[0]?.image}
+        image={orderedCars[0]?.image}
       />
       <section className="fleet-page">
         <div className="shell">
@@ -42,7 +43,10 @@ export default function FilteredFleetPage() {
           </div>
           <div className="car-grid">
             {visible.map((car, index) => (
-              <article className="car-card" key={car.id}>
+              <article
+                className={`car-card${car.id === "hummer-stretch-limo" ? " hummer-card" : ""}${car.hoverImage ? " has-hover-image" : ""}`}
+                key={car.id}
+              >
                 <div className="car-card-img">
                   <img
                     src={car.image}
@@ -50,6 +54,18 @@ export default function FilteredFleetPage() {
                     loading="lazy"
                     decoding="async"
                   />
+                  {car.hoverImage && (
+                    <>
+                      <img
+                        className="car-card-img-alt"
+                        src={car.hoverImage}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <span className="car-card-img-label">DETAIL VIEW</span>
+                    </>
+                  )}
                   <div className="car-index">
                     {String(index + 1).padStart(2, "0")}
                   </div>

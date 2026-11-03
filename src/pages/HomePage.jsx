@@ -1,12 +1,14 @@
 import React from "react";
 import ServicesGrid from "../components/sections/ServicesGrid.jsx";
 import SelBanner from "../components/sections/SelBanner.jsx";
+import {QuickReservation,JourneyQuestions} from "../components/sections/JourneyPlanning.jsx";
 import {Manifesto,Experience,Fleet,CarListing,Numbers,Chauffeur,Journey,Destinations,Reviews,Booking} from "../components/sections/HomeSections.jsx";
 function HomePage() {
   return (
     <>
       <main>
         <SelBanner />
+        <QuickReservation />
         <section className="page-intro">
           <div className="shell split-copy">
             <div>
@@ -40,6 +42,7 @@ function HomePage() {
         <Journey />
         <Destinations />
         <Reviews />
+        <JourneyQuestions />
         <Booking />
       </main>
 

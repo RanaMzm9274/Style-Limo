@@ -28,13 +28,13 @@ img { display: block; max-width: 100%; }
     --muted: #a39a86
 }
 
-/* Keep the alternate theme within the black-and-gold visual system. */
 html[data-theme="light"] {
-    --black: #11100d;
-    --paper: #1b1812;
-    --lime: #ffbf00;
-    --line: #493d27;
-    --muted: #b1a78f;
+    color-scheme: light;
+    --black: #fff9e8;
+    --paper: #fff0c2;
+    --lime: #ffb81c;
+    --line: #e8d8a8;
+    --muted: #756341;
 }
 
 * {
@@ -89,6 +89,81 @@ select {
     padding: 25px 0;
     background: linear-gradient(#080808b8, transparent);
     mix-blend-mode: normal
+}
+
+.whatsapp-float {
+    position: fixed;
+    z-index: 100;
+    right: 24px;
+    bottom: 24px;
+    width: 58px;
+    height: 58px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #25d366;
+    color: #fff;
+    box-shadow: 0 5px 20px #0005;
+    isolation: isolate;
+    animation: whatsapp-attention 6s ease-in-out infinite;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.whatsapp-waves {
+    position: fixed;
+    z-index: 99;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.whatsapp-waves span {
+    position: absolute;
+    right: 53px;
+    bottom: 53px;
+    width: 200vmax;
+    height: 200vmax;
+    border: 2px solid #25d366;
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 12px #25d36624,
+        0 0 0 28px #25d36616,
+        0 0 38px #25d36622;
+    opacity: 0;
+    transform: translate(50%, 50%) scale(0);
+    animation: whatsapp-screen-wave 6s ease-out infinite;
+}
+
+.whatsapp-waves span:nth-child(2) {
+    animation-delay: 3s;
+}
+
+.whatsapp-float:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 24px #0006;
+    animation-play-state: paused;
+}
+
+.whatsapp-float svg {
+    width: 31px;
+    height: 31px;
+}
+
+.whatsapp-float:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+@keyframes whatsapp-attention {
+    0%, 4%, 50%, 54%, 100% { scale: 1; }
+    2%, 52% { scale: 1.07; }
+}
+
+@keyframes whatsapp-screen-wave {
+    0%, 100% { opacity: 0; transform: translate(50%, 50%) scale(0); }
+    5% { opacity: .32; }
+    72% { opacity: .2; }
+    92% { opacity: 0; transform: translate(50%, 50%) scale(1.5); }
 }
 
 .nav-in {
@@ -1397,14 +1472,18 @@ blockquote { max-width: 520px; color: var(--muted); line-height: 1.7; margin: 30
 
 .car-card {
     border-bottom: 1px solid #2b2b2b;
-    padding-bottom: 24px
+    padding: 0 0 24px;
+    position: relative;
+    scale: 1;
+    transition: scale .45s cubic-bezier(.2, .7, .2, 1), background-color .35s;
 }
 
 .car-card-img {
-    height: 410px;
+    height: var(--car-card-image-height, 410px);
     overflow: hidden;
     position: relative;
-    background: #111
+    background: #111;
+    transition: height .45s cubic-bezier(.2, .7, .2, 1);
 }
 
 .car-card-img img {
@@ -1412,20 +1491,77 @@ blockquote { max-width: 520px; color: var(--muted); line-height: 1.7; margin: 30
     height: 112%;
     object-fit: cover;
     filter: saturate(.6);
-    transition: transform .8s cubic-bezier(.2, .7, .2, 1), filter .5s
+    transition: transform .8s cubic-bezier(.2, .7, .2, 1), filter .5s, opacity .4s
+}
+
+.car-card-img .car-card-img-alt {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    opacity: 0;
+    transform: scale(1.04);
+    z-index: 1;
+}
+
+.car-card-img-label {
+    position: absolute;
+    z-index: 2;
+    right: 18px;
+    bottom: 18px;
+    padding: 8px 10px;
+    background: #080808cc;
+    color: #fff;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity .3s ease, transform .3s ease;
 }
 
 /* The long Hummer photo should remain fully visible instead of being cropped. */
-.car-card:nth-child(4) .car-card-img img {
+.car-card.hummer-card .car-card-img img {
     height: 100%;
     object-fit: contain;
     padding: 10px;
     background: #151515;
 }
 
-.car-card:hover .car-card-img img {
-    transform: scale(1.055);
+.car-card:hover .car-card-img img,
+.car-card:focus-within .car-card-img img {
+    transform: scale(1.12);
     filter: saturate(1)
+}
+
+.car-grid {
+    align-items: start;
+}
+
+.car-card:hover,
+.car-card:focus-within {
+    z-index: 3;
+    scale: 1.025;
+}
+
+.car-card:hover .car-card-img,
+.car-card:focus-within .car-card-img {
+    height: calc(var(--car-card-image-height, 410px) + 60px);
+}
+
+.car-card.has-hover-image:hover .car-card-img img:first-child,
+.car-card.has-hover-image:focus-within .car-card-img img:first-child {
+    opacity: .25;
+}
+
+.car-card:hover .car-card-img .car-card-img-alt,
+.car-card:focus-within .car-card-img .car-card-img-alt {
+    opacity: 1;
+    transform: scale(1.12);
+}
+
+.car-card:hover .car-card-img-label,
+.car-card:focus-within .car-card-img-label {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .car-index,
@@ -1649,7 +1785,7 @@ blockquote { max-width: 520px; color: var(--muted); line-height: 1.7; margin: 30
     }
 
     .car-card-img {
-        height: 320px
+        --car-card-image-height: 320px;
     }
 
     .number-grid {
@@ -1698,7 +1834,7 @@ blockquote { max-width: 520px; color: var(--muted); line-height: 1.7; margin: 30
     }
 
     .car-card-img {
-        height: 280px
+        --car-card-image-height: 280px;
     }
 
     .listing-head {
@@ -2134,22 +2270,26 @@ blockquote { max-width: 520px; color: var(--muted); line-height: 1.7; margin: 30
 }
 
 html[data-theme="light"] {
-    --black: #11100d;
-    --paper: #1b1812;
-    --line: #493d27;
-    --muted: #b1a78f
+    color-scheme: light;
+    --black: #fff9e8;
+    --paper: #fff0c2;
+    --lime: #ffb81c;
+    --line: #e8d8a8;
+    --muted: #756341
 }
 
 html[data-theme="light"] body {
-    background: #11100d;
-    color: #f4f0e5
+    background: #fff9e8;
+    color: #29261f
 }
 
 html[data-theme="light"] .nav {
-    background: linear-gradient(#11100de8, transparent)
+    background: linear-gradient(#fff9e8f2, #fff9e8d9 72%, transparent);
+    color: #29261f
 }
 
 html[data-theme="light"] .hero,
+html[data-theme="light"] .manifest,
 html[data-theme="light"] .fleet,
 html[data-theme="light"] .car-listing,
 html[data-theme="light"] .configurator,
@@ -2158,32 +2298,35 @@ html[data-theme="light"] .destinations,
 html[data-theme="light"] .journey,
 html[data-theme="light"] .booking,
 html[data-theme="light"] .reviews,
-html[data-theme="light"] footer {
-    background: #11100d;
-    color: #f4f0e5
+html[data-theme="light"] footer,
+html[data-theme="light"] .fleet-page,
+html[data-theme="light"] .booking-page,
+html[data-theme="light"] .services,
+html[data-theme="light"] .service-promise {
+    background-color: #fff9e8;
+    color: #29261f
 }
 
-html[data-theme="light"] .manifest {
-    background: #11100d;
-    color: #f4f0e5
+html[data-theme="light"] .hero {
+    background-color: #fff0c2
 }
 
 html[data-theme="light"] .hero-grid,
 html[data-theme="light"] .configurator-grid {
-    background-image: linear-gradient(#00000008 1px, transparent 1px), linear-gradient(90deg, #00000008 1px, transparent 1px)
+    background-image: linear-gradient(#6f604510 1px, transparent 1px), linear-gradient(90deg, #6f604510 1px, transparent 1px)
 }
 
 html[data-theme="light"] .hero-glow {
-    background: radial-gradient(ellipse, #0000000b, transparent 62%)
+    background: radial-gradient(ellipse, #ffb81c24, transparent 62%)
 }
 
 html[data-theme="light"] .hero-word.outline {
-    -webkit-text-stroke-color: #888
+    -webkit-text-stroke-color: #b28a38
 }
 
 html[data-theme="light"] .manifest .muted,
 html[data-theme="light"] .ghost-word {
-    color: #bbb
+    color: #b8ad98
 }
 
 html[data-theme="light"] .service-grid,
@@ -2195,46 +2338,46 @@ html[data-theme="light"] .model-selector,
 html[data-theme="light"] .model-selector button,
 html[data-theme="light"] .booking label,
 html[data-theme="light"] .booking form {
-    border-color: #ccc
+    border-color: #e8d8a8
 }
 
 html[data-theme="light"] .fleet-nav button,
 html[data-theme="light"] .booking select,
 html[data-theme="light"] .booking input,
 html[data-theme="light"] .model-selector button {
-    color: #111
+    color: #29261f
 }
 
 html[data-theme="light"] .ch-copy h2 i {
-    -webkit-text-stroke-color: #eee
+    -webkit-text-stroke-color: #ffb81c
 }
 
 html[data-theme="light"] .chauffeur {
-    background: #111;
-    color: #eee
+    background: #fff0c2;
+    color: #29261f
 }
 
 html[data-theme="light"] .chauffeur .section-no,
 html[data-theme="light"] .chauffeur p {
-    color: #aaa
+    color: #756341
 }
 
 html[data-theme="light"] .services {
-    border-color: #444
+    border-color: #e8d8a8
 }
 
 html[data-theme="light"] .services a {
-    border-color: #444
+    border-color: #e8d8a8
 }
 
 html[data-theme="light"] .footer-bottom {
-    border-color: #ccc;
-    color: #666
+    border-color: #e8d8a8;
+    color: #756341
 }
 
 html[data-theme="light"] .links.open {
-    background: #f1eee7;
-    color: #111
+    background: #fff9e8;
+    color: #29261f
 }
 
 @media(max-width:900px) {
@@ -2441,7 +2584,7 @@ html[data-theme="dark"] .experience .section-no { color: #b8b8b0; }
 .promise-list div { display:grid; grid-template-columns:50px 1fr; gap:20px; align-items:center; border-top:1px solid #555; padding:24px 0; }
 .promise-list div:last-child { border-bottom:1px solid #555; }
 .promise-list p { margin:0; font-size:15px; }
-html[data-theme="light"] .service-promise { background:#252722; }
+html[data-theme="light"] .service-promise { background:#fff0c2; color:#29261f; }
 @media (max-width:760px) {
  .service-section-head, .service-promise-inner { grid-template-columns:1fr; gap:24px; }
  .service-section-head { padding-bottom:30px; }
@@ -2693,6 +2836,58 @@ html[data-theme="light"] .service-promise { background:#252722; }
 
     .booking-aside h1 {
         font-size: 17vw
+    }
+}
+
+/* Keep the full fleet photos visible on phones, including detail views. */
+@media(max-width:760px) {
+    .car-card .car-card-img img,
+    .car-card:hover .car-card-img img,
+    .car-card:focus-within .car-card-img img,
+    .car-card:hover .car-card-img .car-card-img-alt,
+    .car-card:focus-within .car-card-img .car-card-img-alt {
+        height: 100%;
+        object-fit: contain;
+        object-position: center;
+        transform: none;
+    }
+
+    .car-card:hover,
+    .car-card:focus-within {
+        scale: 1;
+    }
+
+    .car-card:hover .car-card-img,
+    .car-card:focus-within .car-card-img {
+        height: var(--car-card-image-height, 410px);
+    }
+
+    .fleet-stage>img {
+        width: 100%;
+        object-fit: contain;
+        clip-path: none;
+    }
+
+    .fleet-preview-grid img {
+        object-fit: contain;
+    }
+
+    .ch-photo {
+        height: auto;
+        padding-bottom: 100px;
+    }
+
+    .ch-photo img {
+        display: block;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .ch-photo .ch-badge {
+        right: 0;
+        bottom: 0;
+        width: 100px;
+        height: 100px;
     }
 }
 
@@ -3209,8 +3404,8 @@ html[data-theme="light"] .service-promise { background:#252722; }
 .review-grid blockquote footer { background:transparent !important;padding:0; }
 .services > a { cursor:pointer; }
 .sel-banner-top { gap:20px; }
-html[data-theme="light"] .experience { background:#171917; }
-html[data-theme="light"] .ch-copy h2 i { -webkit-text-stroke-color:#eee; }
+html[data-theme="light"] .experience { background:#fff0c2; }
+html[data-theme="light"] .ch-copy h2 i { -webkit-text-stroke-color:#ffb81c; }
 html[data-theme="dark"] .ch-copy h2 i { -webkit-text-stroke-color:#111; }
 html[data-theme="light"] .nav .logo { color:#111; }
 .menu { color:inherit; min-width:44px;min-height:44px;cursor:pointer; }
@@ -3227,7 +3422,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
 .booking-page-grid > *, .booking-grid > *, .split-copy > * { min-width:0; }
 @media(max-width:760px) {
  .service-intro-copy { margin-top: 30px; max-width: 360px; }
- .service-intro-copy p { font-size: 14px; }
+ .service-intro-copy p { font-size: 14px;  }
  .service-intro-note-wrap { margin-top: 30px; }
  .service-intro-stats { gap: 14px; }
  .sel-banner { min-height:860px;height:100svh; }
@@ -3272,6 +3467,81 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
 }
 @media(min-width:761px) { .sel-scene { top:100px;bottom:126px;left:36%;right:2%; } }
 @media(max-width:760px) { .fleet-head { align-items:flex-start;flex-direction:column;gap:28px; } .fleet-nav { width:100%;justify-content:flex-end; } }
+
+html[data-theme="light"] .theme-toggle,
+html[data-theme="light"] .menu,
+html[data-theme="light"] .fleet-nav button,
+html[data-theme="light"] .filter-bar button {
+    color: #29261f;
+    border-color: #e0cc91;
+}
+
+html[data-theme="light"] .theme-toggle:hover,
+html[data-theme="light"] .filter-bar button.on {
+    background: #ffb81c;
+    border-color: #ffb81c;
+    color: #29261f;
+}
+
+html[data-theme="light"] .car-card {
+    background: #fff3d4;
+}
+
+html[data-theme="light"] .booking select,
+html[data-theme="light"] .booking input,
+html[data-theme="light"] .config-panel,
+html[data-theme="light"] .model-selector,
+html[data-theme="light"] .model-selector button {
+    background-color: #fff3d4;
+    color: #29261f;
+}
+
+html[data-theme="light"] .booking option {
+    background: #fff9e8;
+    color: #29261f;
+}
+
+html[data-theme="light"] .fleet-strip button,
+html[data-theme="light"] .car-card-title small,
+html[data-theme="light"] .mini-specs,
+html[data-theme="light"] .filter-bar button {
+    color: #756341;
+}
+
+html[data-theme="light"] .fleet-strip button.on {
+    color: #29261f;
+}
+
+html[data-theme="dark"] .manifest p,
+html[data-theme="dark"] .split-copy p,
+html[data-theme="dark"] .value-grid p,
+html[data-theme="dark"] .service-detail p,
+html[data-theme="dark"] .service-section-head p,
+html[data-theme="dark"] .process-grid p,
+html[data-theme="dark"] .promise-list p,
+html[data-theme="dark"] .grid-heading p,
+html[data-theme="dark"] .listing-head > p,
+html[data-theme="dark"] .journey article p,
+html[data-theme="dark"] .service-card p,
+html[data-theme="dark"] .car-card-title small,
+html[data-theme="dark"] .mini-specs {
+    color: #c2bfb7;
+}
+
+html[data-theme="dark"] .section-no,
+html[data-theme="dark"] .value-grid span,
+html[data-theme="dark"] .service-big-no,
+html[data-theme="dark"] .journey-title > span,
+html[data-theme="dark"] .process-grid span,
+html[data-theme="dark"] .promise-list span,
+html[data-theme="dark"] .service-card-top,
+html[data-theme="dark"] .reviews blockquote footer {
+    color: #aaa69d;
+}
+
+html[data-theme="dark"] .service-card:hover p {
+    color: #333;
+}
 /* Compact Journey: keep the horizontal cards beneath the heading. */
 .journey { height: 72vh; min-height: 560px; }
 .journey-title { top: 30px; }
@@ -3331,3 +3601,40 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
 @media(max-width:900px){.fleet-item-body{grid-template-columns:1fr}.fleet-image-editor{display:grid;grid-template-columns:180px 1fr;gap:12px}.fleet-image-editor .url-field{margin:0}.fleet-item-summary{grid-template-columns:30px 1fr auto}.fleet-item-summary em{display:none}}
 @media(max-width:560px){.fleet-card-heading{grid-template-columns:30px 1fr}.fleet-card-heading>button{grid-column:1/-1;justify-content:center}.fleet-item-summary{grid-template-columns:1fr auto}.fleet-item-summary>span{display:none}.fleet-item-body{padding:14px}.fleet-image-editor{grid-template-columns:1fr}.fleet-detail-fields{grid-template-columns:1fr}.fleet-detail-fields .wide{grid-column:auto}.delete-vehicle{justify-self:stretch;justify-content:center}}
 .booking-settings-fields textarea{width:100%;resize:vertical;border:1px solid var(--admin-border);background:#100e0a;color:#fff;padding:13px;outline:0;font:14px/1.7 "DM Sans",sans-serif}.booking-settings-fields textarea:focus{border-color:var(--admin-accent);box-shadow:0 0 0 3px #ffbf0018}.field-help{display:block;margin-top:8px;color:#8f846c;font-size:9px;letter-spacing:.5px;text-transform:none}
+
+/* Journey planning: shared Style Express Limo colour and type language. */
+.quick-reservation { padding: 30px 0; background: var(--black); border-block: 1px solid var(--line); }
+.quick-reservation-top { display:flex; justify-content:space-between; gap:20px; color:var(--muted); font-size:10px; letter-spacing:1.8px; }
+.quick-reservation-top > span:first-child { display:flex; align-items:center; gap:10px; color:var(--lime); }
+.quick-reservation-body { display:grid; grid-template-columns:1fr 2fr; gap:36px; align-items:center; margin:24px 0 18px; }
+.quick-reservation h2 { font-size:clamp(22px,2.3vw,34px); line-height:1.15; margin:0 0 8px; letter-spacing:-1px; }
+.quick-reservation h2 i,.journey-questions h2 i { color:var(--lime); font-style:normal; }
+.quick-reservation-body p { color:var(--muted); font-size:14px; margin:0; line-height:1.6; }
+.quick-reservation form { display:grid; grid-template-columns:1.2fr 1fr 1fr auto; gap:14px; align-items:end; }
+.quick-reservation label { display:grid; gap:10px; font-size:10px; letter-spacing:1.2px; min-width:0; }
+.quick-reservation input,.quick-reservation select { width:100%; min-width:0; min-height:48px; border:1px solid var(--line); border-radius:0; padding:12px; background:var(--black); color:inherit; font:inherit; font-size:14px; letter-spacing:0; color-scheme:dark; }
+.quick-reservation button { display:flex; align-items:center; justify-content:center; gap:18px; min-height:48px; padding:14px 20px; background:var(--lime); color:#15120a; border:1px solid var(--lime); cursor:pointer; font-size:11px; font-weight:700; }
+.quick-reservation button:hover { background:var(--paper); border-color:var(--paper); }
+.quick-reservation-note { display:flex; gap:8px; align-items:center; color:var(--muted); font-size:12px; line-height:1.6; }
+.quick-reservation-note svg { color:var(--lime); flex-shrink:0; }
+.journey-questions { padding:100px 0; background:var(--black); border-top:1px solid var(--line); }
+.journey-questions-grid { display:grid; grid-template-columns:1fr 1.3fr; gap:80px; }
+.journey-questions h2 { font-size:clamp(30px,3.4vw,52px); line-height:1.08; letter-spacing:-1.7px; margin:24px 0; }
+.journey-questions-intro > p { color:var(--muted); max-width:360px; font-size:16px; line-height:1.7; }
+.journey-questions-intro > a { display:inline-flex; align-items:center; gap:18px; padding:16px 0; font-size:11px; border-bottom:1px solid var(--lime); margin-top:12px; }
+.journey-questions-mark { margin-top:48px; font-size:60px; font-weight:700; letter-spacing:-5px; color:var(--lime); }
+.journey-questions-mark span { display:block; font-size:9px; letter-spacing:2px; color:var(--muted); margin-top:8px; }
+.journey-questions details { border-bottom:1px solid var(--line); }
+.journey-questions details:first-child { border-top:1px solid var(--line); }
+.journey-questions summary { display:flex; align-items:center; gap:18px; min-height:80px; padding:20px 0; cursor:pointer; list-style:none; font-size:16px; line-height:1.5; }
+.journey-questions summary::-webkit-details-marker { display:none; }
+.question-index { color:var(--muted); font-size:11px; }
+.journey-questions summary svg { margin-left:auto; flex-shrink:0; color:var(--lime); transition:transform .2s ease; }
+.journey-questions details[open] summary svg { transform:rotate(45deg); }
+.journey-questions details p { color:var(--muted); font-size:15px; line-height:1.8; margin:0; padding:0 32px 26px; }
+.quick-reservation :is(input,select,button):focus-visible,.journey-questions :is(summary,a):focus-visible { outline:2px solid var(--lime); outline-offset:5px; }
+html[data-theme="light"] :is(.quick-reservation,.journey-questions) { color:#241d12; }
+html[data-theme="light"] .quick-reservation :is(input,select) { color-scheme:light; }
+@media(max-width:1100px) { .quick-reservation-body { grid-template-columns:1fr; gap:24px; } .journey-questions-grid { gap:40px; } }
+@media(max-width:760px) { .quick-reservation-top > span:last-child { display:none; } .quick-reservation form { grid-template-columns:1fr 1fr; } .quick-reservation form > label:first-child,.quick-reservation button { grid-column:1/-1; } .journey-questions { padding:64px 0; } .journey-questions-grid { grid-template-columns:1fr; gap:32px; } .journey-questions-mark { display:none; } .journey-questions summary { font-size:15px; gap:12px; } .journey-questions details p { padding-left:26px; padding-right:10px; } }
+@media(prefers-reduced-motion:reduce) { .journey-questions summary svg { transition:none; } }

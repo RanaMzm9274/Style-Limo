@@ -7,6 +7,7 @@ import SmoothScroll from "../components/layout/SmoothScroll.jsx";
 import Cursor from "../components/layout/Cursor.jsx";
 import Nav from "../components/layout/Nav.jsx";
 import Footer from "../components/layout/Footer.jsx";
+import WhatsAppButton from "../components/layout/WhatsAppButton.jsx";
 import HomePage from "../pages/HomePage.jsx";
 import AboutPage from "../pages/AboutPage.jsx";
 import ServicesPage from "../pages/ServicesPage.jsx";
@@ -34,5 +35,5 @@ export default function AppRoot(){
   const timer=setTimeout(refresh,150);
   return ()=>{clearTimeout(timer);imgs.forEach(img=>img.removeEventListener("load",refresh));mm.revert()};
  },{scope:root,dependencies:[pathname],revertOnUpdate:true});
- return <div ref={root}>{!isAdmin&&<><SmoothScroll/><Cursor/><ScrollTop/><Nav/></>}<Routes><Route path="/" element={<HomePage/>}/><Route path="/about" element={<AboutPage/>}/><Route path="/services" element={<ServicesPage/>}/><Route path="/fleet" element={<FleetPage/>}/><Route path="/booking" element={<BookingPage/>}/><Route path="/admin" element={<AdminPage/>}/><Route path="/admin/fleet" element={<FleetAdminPage/>}/><Route path="/admin/booking-settings" element={<BookingSettingsAdminPage/>}/><Route path="*" element={<section className="booking-success shell"><div><h1>PAGE NOT FOUND</h1><a href="/">RETURN HOME</a></div></section>}/></Routes>{!isAdmin&&<Footer/>}</div>
+ return <div ref={root}>{!isAdmin&&<><SmoothScroll/><Cursor/><ScrollTop/><Nav/><WhatsAppButton/></>}<Routes><Route path="/" element={<HomePage/>}/><Route path="/about" element={<AboutPage/>}/><Route path="/services" element={<ServicesPage/>}/><Route path="/fleet" element={<FleetPage/>}/><Route path="/booking" element={<BookingPage/>}/><Route path="/admin" element={<AdminPage/>}/><Route path="/admin/fleet" element={<FleetAdminPage/>}/><Route path="/admin/booking-settings" element={<BookingSettingsAdminPage/>}/><Route path="*" element={<section className="booking-success shell"><div><h1>PAGE NOT FOUND</h1><a href="/">RETURN HOME</a></div></section>}/></Routes>{!isAdmin&&<Footer/>}</div>
 }

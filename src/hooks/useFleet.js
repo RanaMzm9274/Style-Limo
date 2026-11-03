@@ -33,6 +33,7 @@ const clientFleet = [
     acceleration: "4.0 SEC",
     price: "495",
     image: "/images/fleet/ferrrari-360.png",
+    hoverImage: "/images/fleet/ferrari-limo-f340.jpeg",
     available: true,
   },
   {
@@ -49,6 +50,7 @@ const clientFleet = [
     acceleration: "10.0 SEC",
     price: "POA",
     image: "/images/fleet/hummer-h2.png",
+    hoverImage: "/images/fleet/hummer-limo.jpeg",
     available: true,
   },
   {
@@ -64,7 +66,8 @@ const clientFleet = [
     topSpeed: "140 MPH",
     acceleration: "5.8 SEC",
     price: "495",
-    image: "/images/fleet/landrover.jpeg",
+    image: "/images/fleet/range-rover-limo-front.png",
+    hoverImage: "/images/fleet/range-rover-limo-side.png",
     available: true,
   },
   {
@@ -80,8 +83,27 @@ const clientFleet = [
     topSpeed: "155 MPH",
     acceleration: "5.2 SEC",
     price: "1,950",
-    image: "/images/fleet/cullinnan1.png",
-    interiorImage: "/images/fleet/cullinnan1.png",
+    image: "/images/fleet/cullinan-white-exterior.png",
+    hoverImage: "/images/fleet/cullinan-white-interior.png",
+    interiorImage: "/images/fleet/cullinan-white-interior.png",
+    available: true,
+  },
+  {
+    id: "rolls-royce-cullinan-black",
+    brand: "ROLLS-ROYCE",
+    name: "Rolls Royce Cullinan Black",
+    categories: ["LUXURY", "SUV", "CHAUFFEUR"],
+    variations: ["Orange interior", "Executive transfer"],
+    colors: ["Black"],
+    model: "/models/rolls-royce-cullinan.glb",
+    engineCapacity: "6.75L V12",
+    power: "563 PS",
+    topSpeed: "155 MPH",
+    acceleration: "5.2 SEC",
+    price: "1,950",
+    image: "/images/fleet/cullinan-black-exterior.png",
+    hoverImage: "/images/fleet/cullinan-black-interior.png",
+    interiorImage: "/images/fleet/cullinan-black-interior.png",
     available: true,
   },
   {
@@ -98,6 +120,7 @@ const clientFleet = [
     acceleration: "5.4 SEC",
     price: "2,250",
     image: "/images/fleet/phantom-limo.png",
+    hoverImage: "/images/fleet/phantom.jpeg",
     available: true,
   },
    {
@@ -113,13 +136,14 @@ const clientFleet = [
     topSpeed: "155 MPH",
     acceleration: "5.4 SEC",
     price: "2,250",
-    image: "/images/fleet/Ghost1.png",
+    image: "/images/fleet/ghost-exterior.png",
+    hoverImage: "/images/fleet/ghost-wedding.png",
     available: true,
   },
   {
     id: "rolls-royce-drophead",
     brand: "ROLLS-ROYCE",
-    name: "Rolls Royce Drophead Coupe",
+    name: "Rolls Royce Drophead",
     categories: ["LUXURY", "WEDDING"],
     variations: ["Convertible", "Wedding hire"],
     colors: ["White"],
@@ -130,6 +154,7 @@ const clientFleet = [
     acceleration: "5.7 SEC",
     price: "POA",
     image: "/images/fleet/drophead-coupe.png",
+    hoverImage: "/images/fleet/drop-head.jpeg",
     available: true,
   },
   {
@@ -138,14 +163,15 @@ const clientFleet = [
     name: "Rolls Royce Phantom",
     categories: ["LUXURY", "WEDDING"],
     variations: ["Convertible", "Wedding hire"],
-    colors: ["White"],
+    colors: ["Blue", "Silver"],
     model: "Rolls-Royce Drophead Coupe",
     engineCapacity: "6.75L V12",
     power: "453 PS",
     topSpeed: "150 MPH",
     acceleration: "5.7 SEC",
     price: "POA",
-    image: "/images/fleet/phantom1.png",
+    image: "/images/fleet/phantom-viii-side.png",
+    hoverImage: "/images/fleet/phantom-viii-front.png",
     available: true,
   },
   {
@@ -166,10 +192,39 @@ const clientFleet = [
   },
 ];
 
+const plateCoveredImages = new Set([
+  "cullinan-white-exterior.png", "ghost-exterior.png", "ghost-wedding.png",
+  "hummer-h2.png",
+  "ferrrari-360.png", "ferrari-limo-f340.jpeg", "landrover.jpeg",
+  "phantom.jpeg", "phantom-limo.png", "cullinnan1.png", "Culinnan2.png",
+  "Ghost1.png", "Ghost2.png", "phantom1.png",
+]);
+
+const coverPlate = (image) => {
+  const name = image?.split("/").pop();
+  return plateCoveredImages.has(name)
+    ? `/images/fleet/plate-hidden/${name.replace(/\.[^.]+$/, ".svg")}`
+    : image;
+};
+
+const publicFleet = clientFleet.map((car) => ({
+  ...car,
+  image: coverPlate(car.image),
+  hoverImage: coverPlate(car.hoverImage),
+  interiorImage: coverPlate(car.interiorImage),
+}));
+
 const normalize = (data) => ({
   categories: [...new Set([...data.categories, ...clientFleet.flatMap((car) => car.categories)])],
-  vehicles: clientFleet,
+  vehicles: publicFleet,
 });
+
+export const sortFleetRollsRoyceFirst = (vehicles) =>
+  [...vehicles].sort(
+    (first, second) =>
+      Number(second.brand.toUpperCase() === "ROLLS-ROYCE") -
+      Number(first.brand.toUpperCase() === "ROLLS-ROYCE"),
+  );
 
 let cached;
 let pending;
