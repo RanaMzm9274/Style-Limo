@@ -170,8 +170,8 @@ const clientFleet = [
     topSpeed: "150 MPH",
     acceleration: "5.7 SEC",
     price: "POA",
-    image: "/images/fleet/phantom-viii-side.png",
-    hoverImage: "/images/fleet/phantom-viii-front.png",
+    image: "/images/fleet/phantom-viii-front.png",
+    hoverImage: "/images/fleet/phantom-viii-side.png",
     available: true,
   },
   {

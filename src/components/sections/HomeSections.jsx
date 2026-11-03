@@ -179,7 +179,7 @@ export function CarListing() {
         <div className="car-grid">
           {orderedCars.slice(0, 6).map((c, i) => (
             <article
-              className={`car-card${c.id === "hummer-stretch-limo" ? " hummer-card" : ""}${c.hoverImage ? " has-hover-image" : ""}`}
+              className={`car-card${c.id === "rolls-royce-phantom" ? " phantom-card" : ""}${c.id === "hummer-stretch-limo" ? " hummer-card" : ""}${c.hoverImage ? " has-hover-image" : ""}`}
               key={c.name}
             >
               <div className="car-card-img">

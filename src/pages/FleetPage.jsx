@@ -44,7 +44,7 @@ export default function FilteredFleetPage() {
           <div className="car-grid">
             {visible.map((car, index) => (
               <article
-                className={`car-card${car.id === "hummer-stretch-limo" ? " hummer-card" : ""}${car.hoverImage ? " has-hover-image" : ""}`}
+                className={`car-card${car.id === "rolls-royce-phantom" ? " phantom-card" : ""}${car.id === "hummer-stretch-limo" ? " hummer-card" : ""}${car.hoverImage ? " has-hover-image" : ""}`}
                 key={car.id}
               >
                 <div className="car-card-img">
