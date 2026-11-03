@@ -120,7 +120,6 @@ const clientFleet = [
     acceleration: "5.4 SEC",
     price: "2,250",
     image: "/images/fleet/phantom-limo.png",
-    hoverImage: "/images/fleet/phantom.jpeg",
     available: true,
   },
    {

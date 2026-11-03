@@ -1,3 +1,4 @@
+import EnquiryForm from "./EnquiryForm.jsx";
 import React,{useRef,useState} from "react";
 import {Link,useNavigate} from "react-router-dom";
 import {ArrowRight,ChevronLeft,ChevronRight} from "lucide-react";
@@ -475,35 +476,7 @@ export function Booking() {
             Tell us how you want to move. We'll take care of everything else.
           </p>
         </div>
-        <form onSubmit={(e) => {e.preventDefault(); navigate("/booking?" + new URLSearchParams(new FormData(e.currentTarget)));}}>
-          <label>
-            <span>01 / SERVICE</span>
-            <select name="service">{settings.services.map(service=><option key={service}>{service}</option>)}</select>
-          </label>
-          <label>
-            <span>02 / VEHICLE</span>
-            <select name="vehicle">
-              {cars.filter(c=>c.available).map((c) => (
-                <option key={c.name}>
-                  {c.brand} {c.name}
-                </option>
-              ))}
-            </select>
-          </label>
-          <div className="form-row">
-            <label>
-              <span>03 / DATE</span>
-              <input name="date" type="date" min={new Date(Date.now()+settings.minimumNoticeDays*86400000).toISOString().slice(0,10)} />
-            </label>
-            <label>
-              <span>04 / DURATION</span>
-              <select name="duration">{settings.durations.map(duration=><option key={duration}>{duration}</option>)}</select>
-            </label>
-          </div>
-          <button className="reserve">
-            REQUEST RESERVATION <ArrowRight />
-          </button>
-        </form>
+        <EnquiryForm minimumNoticeDays={settings.minimumNoticeDays} />
       </div>
     </section>
   );

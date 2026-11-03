@@ -1,4 +1,4 @@
-import React,{useEffect,useRef} from "react";
+﻿import React,{useEffect,useRef} from "react";
 import {useGSAP} from "@gsap/react";
 import {Routes,Route,useLocation} from "react-router-dom";
 import gsap from "gsap";
@@ -13,6 +13,7 @@ import AboutPage from "../pages/AboutPage.jsx";
 import ServicesPage from "../pages/ServicesPage.jsx";
 import FleetPage from "../pages/FleetPage.jsx";
 import BookingPage from "../pages/BookingPage.jsx";
+import ContactPage from "../pages/ContactPage.jsx";
 import AdminPage from "../pages/AdminPage.jsx";
 import FleetAdminPage from "../pages/FleetAdminPage.jsx";
 import BookingSettingsAdminPage from "../pages/BookingSettingsAdminPage.jsx";
@@ -35,5 +36,6 @@ export default function AppRoot(){
   const timer=setTimeout(refresh,150);
   return ()=>{clearTimeout(timer);imgs.forEach(img=>img.removeEventListener("load",refresh));mm.revert()};
  },{scope:root,dependencies:[pathname],revertOnUpdate:true});
- return <div ref={root}>{!isAdmin&&<><SmoothScroll/><Cursor/><ScrollTop/><Nav/><WhatsAppButton/></>}<Routes><Route path="/" element={<HomePage/>}/><Route path="/about" element={<AboutPage/>}/><Route path="/services" element={<ServicesPage/>}/><Route path="/fleet" element={<FleetPage/>}/><Route path="/booking" element={<BookingPage/>}/><Route path="/admin" element={<AdminPage/>}/><Route path="/admin/fleet" element={<FleetAdminPage/>}/><Route path="/admin/booking-settings" element={<BookingSettingsAdminPage/>}/><Route path="*" element={<section className="booking-success shell"><div><h1>PAGE NOT FOUND</h1><a href="/">RETURN HOME</a></div></section>}/></Routes>{!isAdmin&&<Footer/>}</div>
+ return <div ref={root}>{!isAdmin&&<><SmoothScroll/><Cursor/><ScrollTop/><Nav/><WhatsAppButton/></>}<Routes><Route path="/" element={<HomePage/>}/><Route path="/about" element={<AboutPage/>}/><Route path="/services" element={<ServicesPage/>}/><Route path="/fleet" element={<FleetPage/>}/><Route path="/booking" element={<BookingPage/>}/><Route path="/contact" element={<ContactPage/>}/><Route path="/admin" element={<AdminPage/>}/><Route path="/admin/fleet" element={<FleetAdminPage/>}/><Route path="/admin/booking-settings" element={<BookingSettingsAdminPage/>}/><Route path="*" element={<section className="booking-success shell"><div><h1>PAGE NOT FOUND</h1><a href="/">RETURN HOME</a></div></section>}/></Routes>{!isAdmin&&<Footer/>}</div>
 }
+

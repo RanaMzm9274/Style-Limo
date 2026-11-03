@@ -86,19 +86,27 @@ app.get("/api/public/fleet", async(_req, res) => res.json(await store.getContent
 app.get("/api/public/booking-settings",async(_req,res)=>res.json(await store.getContent("booking_settings")));
 app.post("/api/public/booking-request", rateLimit, async (req, res) => {
   const input = req.body || {};
-  const fields = ["service", "vehicle", "date", "duration", "name", "email", "phone"];
+  const journeyEnquiry = input.kind === "journey-enquiry";
+  const fields = journeyEnquiry ? ["pickup", "destination", "date", "time", "passengers", "service", "name", "email", "phone"] : ["service", "vehicle", "date", "duration", "name", "email", "phone"];
   const request = Object.fromEntries(fields.map((key) => [key, String(input[key] || "").trim()]));
   if (fields.some((key) => !request[key]) || !/^\S+@\S+\.\S+$/.test(request.email))
     return res.status(400).json({ error: "Please complete all booking details with a valid email address." });
+  if (journeyEnquiry && (!/^[1-7]$/.test(request.passengers) || !/^\d{4}-\d{2}-\d{2}$/.test(request.date) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(request.time)))
+    return res.status(400).json({ error: "Please provide a valid date, pick-up time and 1–7 passengers." });
+  if (journeyEnquiry) request.notes = String(input.notes || "").trim().slice(0,4000);
+  if (Object.values(request).some(value => value.length > 4000)) return res.status(400).json({error:"Please shorten your enquiry details."});
+  const labels = journeyEnquiry ? {pickup:"Pick-up location",destination:"Destination",date:"Travel date",time:"Pick-up time (UK)",passengers:"Passengers",service:"Journey type",notes:"Journey notes",name:"Name",email:"Email",phone:"Phone"} : {name:"Name",email:"Email",phone:"Phone",service:"Service",vehicle:"Vehicle",date:"Date",duration:"Duration"};
+  const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
+  const entries = Object.entries(labels).map(([key,label]) => [label,request[key] || "None"]);
   if (!smtpConfigured()) return res.status(503).json({ error: "Email service is not configured yet." });
   try {
     await mailTransport().sendMail({
       from: process.env.SMTP_FROM || process.env.SMTP_USER,
       to: process.env.SMTP_TO,
       replyTo: request.email,
-      subject: `New booking request — ${request.vehicle}`,
-      text: [`New Style Express Limo booking request`, ``, `Name: ${request.name}`, `Email: ${request.email}`, `Phone: ${request.phone}`, `Service: ${request.service}`, `Vehicle: ${request.vehicle}`, `Date: ${request.date}`, `Duration: ${request.duration}`].join("\n"),
-      html: `<h2>New Style Express Limo booking request</h2><p><b>Name:</b> ${request.name}</p><p><b>Email:</b> ${request.email}</p><p><b>Phone:</b> ${request.phone}</p><p><b>Service:</b> ${request.service}</p><p><b>Vehicle:</b> ${request.vehicle}</p><p><b>Date:</b> ${request.date}</p><p><b>Duration:</b> ${request.duration}</p>`,
+      subject: journeyEnquiry ? "New journey enquiry — Style Express Limo" : `New booking request — ${request.vehicle.replace(/[\r\n]/g," ")}`,
+      text: ["New Style Express Limo booking request", "", ...entries.map(([label,value]) => `${label}: ${value}`)].join("\n"),
+      html: `<h2>New Style Express Limo booking request</h2>${entries.map(([label,value]) => `<p><b>${label}:</b> ${escapeHtml(value)}</p>`).join("")}`,
     });
     res.status(201).json({ sent: true });
   } catch (error) {
