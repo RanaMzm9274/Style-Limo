@@ -1,4 +1,13 @@
 img { display: block; max-width: 100%; }
+.vintage-feature { padding: clamp(40px, 7vw, 100px) 0; border-block: 1px solid var(--line); }
+.vintage-feature-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); align-items: center; gap: clamp(28px, 5vw, 80px); }
+.vintage-feature-grid > img { width: 100%; height: auto; object-fit: contain; }
+.vintage-feature-copy h2 { margin: 20px 0; font-size: clamp(34px, 4vw, 66px); line-height: 1.05; }
+.vintage-feature-copy h2 i { color: var(--lime); }
+.vintage-feature-copy p { max-width: 440px; color: var(--muted); line-height: 1.8; }
+.vintage-feature-copy a { display: inline-flex; align-items: center; gap: 16px; min-height: 48px; margin-top: 22px; padding: 14px 18px; background: var(--lime); color: #111; font-size: 11px; font-weight: 700; line-height: 1.6; }
+.vintage-feature-copy a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+@media(max-width:760px) { .vintage-feature-grid { grid-template-columns: minmax(0, 1fr); } }
 .scene-placeholder { width: 100%; height: 100%; background: radial-gradient(ellipse at 50% 58%, #ffffff12, transparent 52%); }
 
 .maintenance-page { min-height: 100vh; position: relative; overflow: hidden; display: grid; place-items: center; background: #080808; color: #f4f0e7; }
@@ -883,7 +892,7 @@ html[data-theme="light"] .fleet-strip button.on { color: #111; }
     background: #0d0d0d
 }
 
-.booking.contact-page { padding:160px 0 70px; min-height:80vh; }
+.booking.contact-page { padding:130px 0 70px; min-height:80vh; }
 .contact-page h1 { font:400 clamp(48px,6vw,90px)/1 "Manrope"; letter-spacing:-.06em; margin:24px 0 0; }
 .contact-page h1 i { color:var(--lime); }
 
@@ -3431,11 +3440,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible { 
  .service-intro-copy p { font-size: 14px;  }
  .service-intro-note-wrap { margin-top: 30px; }
  .service-intro-stats { gap: 14px; }
- .sel-banner { min-height:860px;height:100svh; }
+ .sel-banner { min-height:0;height:auto;padding-top:80px;padding-bottom:24px; }
  .sel-heading { font-size:14vw; }
- .sel-scene { inset:255px 0 255px; }
- .sel-banner-bottom { width:calc(100% - 40px);left:20px;right:20px;bottom:125px; }
- .sel-model-selector { width:calc(100% - 40px); }
+ .sel-heading { margin-top:8px; }
+ .sel-banner-top { display:none; }
+ .sel-scene { position:relative;inset:auto;width:calc(100% - 24px);height:clamp(220px,65vw,300px);margin:0 auto; }
+ .sel-banner-bottom { position:relative;inset:auto;width:calc(100% - 40px);margin:0 auto; }
+ .sel-model-selector { position:relative;inset:auto;transform:none;width:calc(100% - 40px);margin:24px auto 0; }
  .sel-model-info { max-width:135px; }
  .sel-banner-bottom p { font-size:11px; }
  .sel-button { max-width:180px;gap:10px; }
@@ -3754,7 +3765,22 @@ html[data-theme="light"] .booking .journey-enquiry { color:#302819; }
 html[data-theme="light"] .booking .journey-enquiry :is(input,select,textarea) { background:#fff9e8; color:#302819; color-scheme:light; }
 html[data-theme="light"] .booking .journey-enquiry :is(input,textarea)::placeholder { color:#756341; }
 html[data-theme="light"] .booking .journey-enquiry option { color:#302819; background:#fff9e8; }
-@media(max-width:480px) { .enquiry-fields { grid-template-columns:1fr; } }
+@media(max-width:760px) {
+ .fleet-stage { height:auto; display:flex; flex-direction:column; gap:24px; padding:24px 0; }
+ .fleet-stage .fleet-name { position:static; }
+ .fleet-stage .fleet-name strong { display:block; font-size:clamp(30px,8vw,52px); line-height:1.1; overflow-wrap:anywhere; }
+ .fleet-stage > img { position:static; width:100%; height:auto; max-height:340px; object-fit:contain; }
+ .fleet-stage .fleet-specs { position:static; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+ .fleet-stage .fleet-specs b { font-size:18px; }
+ .fleet-stage .fleet-specs span { font-size:8px; letter-spacing:1px; line-height:1.6; }
+ .fleet-stage .fleet-view { align-self:flex-start; margin:0; min-height:48px; padding:14px 20px; }
+ .fleet-strip button { min-width:0; overflow-wrap:anywhere; }
+ .booking.contact-page { padding:110px 0 48px; }
+ .contact-page .booking-grid { gap:32px; }
+ .booking .journey-enquiry :is(input,select,textarea) { font-size:16px; min-height:46px; }
+ .booking .journey-enquiry .enquiry-fields > * { min-width:0; }
+}
+@media(max-width:480px) { .enquiry-fields { grid-template-columns:minmax(0,1fr); } }
 
 /* Keep every location visible between independent pulse cycles. */
 .coverage-node-ring { fill:var(--black); stroke:var(--lime); stroke-width:1.4; pointer-events:none; }

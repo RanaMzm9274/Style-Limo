@@ -131,11 +131,11 @@ export function Fleet() {
               <span>POWER</span>
             </div>
             <div>
-              <b>{c.speed}</b>
+              <b>{c.topSpeed}</b>
               <span>TOP SPEED</span>
             </div>
             <div>
-              <b>{c.zero}</b>
+              <b>{c.acceleration}</b>
               <span>0—62 MPH</span>
             </div>
           </div>
@@ -208,6 +208,25 @@ export function CarListing() {
               <Link to={`/booking?vehicle=${encodeURIComponent(c.brand+" "+c.name)}`}>RESERVE THIS CAR <ArrowRight size={15} /></Link>
             </article>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function VintageFeature() {
+  const {vehicles}=useFleet();
+  const car=vehicles.find(vehicle=>vehicle.id==='vintage-wedding-tourer');
+  if(!car) return null;
+  return (
+    <section className="vintage-feature" aria-labelledby="vintage-title">
+      <div className="shell vintage-feature-grid">
+        <img src={car.image} alt="Ivory open-top vintage wedding car decorated with ribbons" loading="lazy" decoding="async" />
+        <div className="vintage-feature-copy">
+          <div className="section-no">THE WEDDING COLLECTION</div>
+          <h2 id="vintage-title">A TIMELESS<br/><i>ARRIVAL.</i></h2>
+          <p>Make your entrance in our ivory vintage wedding car. Classic styling and an open-top silhouette bring a little romance to your special day.</p>
+          <Link to={`/booking?vehicle=${encodeURIComponent(car.brand+" "+car.name)}&service=Wedding%20Cars`}>ENQUIRE ABOUT THE VINTAGE CAR <ArrowRight size={18}/></Link>
         </div>
       </div>
     </section>

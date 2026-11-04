@@ -1,8 +1,26 @@
 import React,{useEffect,useRef,useState} from "react";
 import * as THREE from "three";
-import {Canvas,useFrame} from "@react-three/fiber";
+import {Canvas,useFrame,useThree} from "@react-three/fiber";
 import {ContactShadows,useGLTF,OrbitControls,Html,useProgress} from "@react-three/drei";
 import {getRimAccent} from "../../utils/rimColors.js";
+
+function ResponsiveCamera() {
+  const {camera,size}=useThree();
+  useEffect(()=>{
+    const mobile=window.matchMedia('(max-width: 760px)').matches;
+    camera.fov=mobile?46:35;
+    if(mobile){
+      // Fit the normalized car's full rotation within the narrower field of view.
+      const vertical=THREE.MathUtils.degToRad(camera.fov/2);
+      const horizontal=Math.atan(Math.tan(vertical)*size.width/size.height);
+      const distance=3.6/Math.sin(Math.min(vertical,horizontal));
+      camera.position.set(5.2,2.25,5.2).normalize().multiplyScalar(distance);
+    }else camera.position.set(5.2,2.25,5.2);
+    camera.lookAt(0,0,0);
+    camera.updateProjectionMatrix();
+  },[camera,size.width,size.height]);
+  return null;
+}
 
 function ModelLoader() {
   const { progress } = useProgress();
@@ -203,6 +221,7 @@ export function ConfiguratorScene({ car, color, progress, dragRotation }) {
       }}
     >
       <ambientLight intensity={1.15} />
+      <ResponsiveCamera />
       <hemisphereLight args={["#fffaf0", "#202820", 1.15]} />
       <directionalLight position={[5, 7, 4]} intensity={3.2} />
       <directionalLight position={[-5, 3, -3]} intensity={1.35} />

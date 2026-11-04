@@ -3,7 +3,7 @@ import Coverage from "../components/sections/Coverage.jsx";
 import ServicesGrid from "../components/sections/ServicesGrid.jsx";
 import SelBanner from "../components/sections/SelBanner.jsx";
 import {QuickReservation,JourneyQuestions} from "../components/sections/JourneyPlanning.jsx";
-import {Manifesto,Experience,Fleet,CarListing,Numbers,Chauffeur,Journey,Reviews,Booking} from "../components/sections/HomeSections.jsx";
+import {Manifesto,Experience,Fleet,CarListing,VintageFeature,Numbers,Chauffeur,Journey,Reviews,Booking} from "../components/sections/HomeSections.jsx";
 function HomePage() {
   return (
     <>
@@ -37,6 +37,7 @@ function HomePage() {
         <Manifesto />
         <ServicesGrid />
         <CarListing />
+        <VintageFeature />
         <Fleet />
         <Experience />
         <Numbers />

@@ -6,9 +6,9 @@ export default function EnquiryForm({minimumNoticeDays=0,initialPickup=''}) {
  const minDate=`${earliest.getFullYear()}-${String(earliest.getMonth()+1).padStart(2,'0')}-${String(earliest.getDate()).padStart(2,'0')}`;
  async function submit(event){
   event.preventDefault();const form=event.currentTarget;setBusy(true);setStatus('');setSent(false);
-  try{const response=await fetch('/api/public/booking-request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:'journey-enquiry',...Object.fromEntries(new FormData(form))})});const result=await response.json().catch(()=>({}));if(!response.ok)throw Error(result.error||'Unable to send your enquiry. Please try again.');setSent(true);setStatus('Thank you. Your enquiry has been sent to our booking team. Your booking will be confirmed separately.');form.reset();}catch(error){setStatus(error.message);}finally{setBusy(false);}
+  try{const response=await fetch('/api/public/booking-request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({kind:'journey-enquiry',...Object.fromEntries(new FormData(form))})});const result=await response.json().catch(()=>({}));if(!response.ok)throw Error(result.error||'Unable to send your enquiry. Please try again.');setSent(true);setStatus(`Thank you. Your enquiry has been sent to our booking team. Reference: ${result.reference}. ${result.confirmationSent ? 'A receipt has been emailed to you.' : 'We could not email your receipt, but our team has received your request.'} Your booking will be confirmed separately.`);form.reset();}catch(error){setStatus(error.message);}finally{setBusy(false);}
  }
- return <form className="journey-enquiry" onSubmit={submit}>
+ return <form className="journey-enquiry" aria-label="Journey enquiry" onSubmit={submit}>
   <div className="enquiry-fields">
    <label>Pick-up location<input name="pickup" placeholder="Address, airport or postcode" defaultValue={initialPickup} required maxLength={300}/></label>
    <label>Destination<input name="destination" placeholder="Your destination" required maxLength={300}/></label>

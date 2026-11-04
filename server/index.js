@@ -1,8 +1,9 @@
+import './env.js';
+import { smtpConfigured, sendBookingEmails } from './mail.js';
 import express from "express";
 import cookieParser from "cookie-parser";
 import bcrypt from "bcryptjs";
 import multer from "multer";
-import nodemailer from "nodemailer";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
@@ -73,14 +74,6 @@ const requireAdmin = async (req, res, next) => {
   req.user = user; next();
 };
 
-const smtpConfigured = () => Boolean(process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_PASS && process.env.SMTP_TO);
-const mailTransport = () => nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT || 587),
-  secure: String(process.env.SMTP_SECURE || "false") === "true",
-  auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-});
-
 app.get("/api/public/banner", async(_req, res) => res.json(await store.getContent("banner")));
 app.get("/api/public/fleet", async(_req, res) => res.json(await store.getContent("fleet")));
 app.get("/api/public/booking-settings",async(_req,res)=>res.json(await store.getContent("booking_settings")));
@@ -89,28 +82,22 @@ app.post("/api/public/booking-request", rateLimit, async (req, res) => {
   const journeyEnquiry = input.kind === "journey-enquiry";
   const fields = journeyEnquiry ? ["pickup", "destination", "date", "time", "passengers", "service", "name", "email", "phone"] : ["service", "vehicle", "date", "duration", "name", "email", "phone"];
   const request = Object.fromEntries(fields.map((key) => [key, String(input[key] || "").trim()]));
-  if (fields.some((key) => !request[key]) || !/^\S+@\S+\.\S+$/.test(request.email))
+  if (fields.some((key) => !request[key]) || !/^[^\s@<>",;]+@[^\s@<>",;]+\.[^\s@<>",;]+$/.test(request.email))
     return res.status(400).json({ error: "Please complete all booking details with a valid email address." });
   if (journeyEnquiry && (!/^[1-7]$/.test(request.passengers) || !/^\d{4}-\d{2}-\d{2}$/.test(request.date) || !/^([01]\d|2[0-3]):[0-5]\d$/.test(request.time)))
     return res.status(400).json({ error: "Please provide a valid date, pick-up time and 1–7 passengers." });
   if (journeyEnquiry) request.notes = String(input.notes || "").trim().slice(0,4000);
   if (Object.values(request).some(value => value.length > 4000)) return res.status(400).json({error:"Please shorten your enquiry details."});
-  const labels = journeyEnquiry ? {pickup:"Pick-up location",destination:"Destination",date:"Travel date",time:"Pick-up time (UK)",passengers:"Passengers",service:"Journey type",notes:"Journey notes",name:"Name",email:"Email",phone:"Phone"} : {name:"Name",email:"Email",phone:"Phone",service:"Service",vehicle:"Vehicle",date:"Date",duration:"Duration"};
-  const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[character]));
-  const entries = Object.entries(labels).map(([key,label]) => [label,request[key] || "None"]);
   if (!smtpConfigured()) return res.status(503).json({ error: "Email service is not configured yet." });
   try {
-    await mailTransport().sendMail({
-      from: process.env.SMTP_FROM || process.env.SMTP_USER,
-      to: process.env.SMTP_TO,
-      replyTo: request.email,
-      subject: journeyEnquiry ? "New journey enquiry — Style Express Limo" : `New booking request — ${request.vehicle.replace(/[\r\n]/g," ")}`,
-      text: ["New Style Express Limo booking request", "", ...entries.map(([label,value]) => `${label}: ${value}`)].join("\n"),
-      html: `<h2>New Style Express Limo booking request</h2>${entries.map(([label,value]) => `<p><b>${label}:</b> ${escapeHtml(value)}</p>`).join("")}`,
-    });
-    res.status(201).json({ sent: true });
+    const result = await sendBookingEmails(request, journeyEnquiry);
+    res.status(201).json(result);
   } catch (error) {
-    console.error("Booking email failed", error);
+    let response = String(error.response || error.message || "");
+    for (const secret of [process.env.SMTP_PASS, process.env.SMTP_USER]) {
+      if (secret) response = response.split(secret).join("[redacted]");
+    }
+    console.error("Booking email failed", {code: error.code || "EMAIL_ERROR", responseCode: error.responseCode, command: error.command, response: response.slice(0, 1500)});
     res.status(502).json({ error: "We could not send your request right now. Please try again." });
   }
 });
